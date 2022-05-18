@@ -3,79 +3,95 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabdou <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 20:45:53 by aabdou            #+#    #+#             */
-/*   Updated: 2021/12/03 15:51:42 by aabdou           ###   ########.fr       */
+/*   Updated: 2022/05/18 17:16:14 by aabdou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	is_sep(char sep, char c)
+int	get_count(char const *s, char c)
 {
-	if (sep == '\0')
-		return (1);
-	else if (c == sep)
-		return (1);
-	return (0);
-}
+	int i = 0;
+	int word = 0;
 
-static int	count_words(char const *s, char c)
-{
-	int	i;
-	int	words;
-
-	i = 0;
-	words = 0;
 	while (s[i])
 	{
-		if (!is_sep(s[i], c) && (is_sep(s[i + 1], c) || s[i + 1] == '\0' ))
-			words++;
+		if (s[i] != c)
+		{
+			if(s[i] == '\"')
+			{
+				i++;
+				while (s[i] != '\"')
+					i++;
+			}
+			if (s[i] == '\'')
+			{
+				i++;
+				while (s[i] != '\'')
+					i++;
+			}
+			if (s[i + 1] == c || s[i + 1] == '\0')
+				word++;
+		}
 		i++;
 	}
-	return (words);
+	return (word);
 }
 
-static void	ft_copy_word(char *dest, char const *from, char c)
+int	get_len(const char *s, char c)
 {
 	int	i;
 
 	i = 0;
-	while (!is_sep(from[i], c))
+	while (s[i])
 	{
-		dest[i] = from[i];
+		if (s[i] == '\"')
+		{
+			i++;
+			while (s[i] != '\"')
+				i++;
+		}
+		if (s[i] == '\'')
+		{
+			i++;
+			while (s[i] != '\'')
+				i++;
+		}
+		if (s[i] == c)
+			break ;
 		i++;
 	}
-	dest[i] = '\0';
+	return (i);
 }
 
-static int	ft_move_to_tab(char **tab, char const *s, char c)
+char	**fill(const char *s, char c, int word, char **splitted)
 {
 	int	i;
 	int	j;
-	int	word;
+	int	len;
 
-	word = 0;
 	i = 0;
-	while (s[i])
+	while (i < word)
 	{
-		if (is_sep(s[i], c))
-			i++;
-		else
+		while (*s == c)
+			s++;
+		len = get_len(s, c);
+		splitted[i] = (char *)malloc(sizeof(char) * (len + 1));
+		if (!splitted[i])
+			return (perror("Error"), exit (EXIT_FAILURE), NULL);
+		j = 0;
+		while (j < len)
 		{
-			j = 0;
-			while (!is_sep(s[i + j], c))
-				j++;
-			tab[word] = (char *)malloc(j + 1);
-			if (!tab)
-				return (0);
-			ft_copy_word(tab[word], s + i, c);
-			i = i + j;
-			word++;
+			splitted[i][j++] = *s++;
 		}
+		splitted[i][j] = '\0';
+		i++;
 	}
-	return (1);
+	splitted[i] = NULL;
+	return (splitted);
 }
 
 char	**ft_split(char const *s, char c)
@@ -87,18 +103,18 @@ char	**ft_split(char const *s, char c)
 	i = 0;
 	if (!s)
 		return (NULL);
-	word = count_words(s, c);
+	word = get_count
+(s, c);
 	tab = (char **)malloc(sizeof(char *) * (word + 1));
 	if (!tab)
-		return (NULL);
-	tab[word] = 0;
-	if (!ft_move_to_tab(tab, s, c))
 	{
 		while (tab[i++])
 		{
 			free(tab[i]);
 		}
 		free(tab);
+		return (perror("Error, split"), exit(EXIT_FAILURE), NULL);
 	}
+	tab = fill(s, c, word, tab);
 	return (tab);
 }

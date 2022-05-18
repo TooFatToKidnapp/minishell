@@ -6,7 +6,7 @@
 /*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 21:01:03 by aabdou            #+#    #+#             */
-/*   Updated: 2022/05/16 23:31:09 by aabdou           ###   ########.fr       */
+/*   Updated: 2022/05/18 17:48:12 by aabdou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,9 @@ int		redirect(char *str, int i);
 int		redirect_count_err(char *line);
 int		redirect_Err(char *str);
 int		skip_quote(char *str, int i);
-int		check_directions_Err(char *str, int i, int j);
+
+char	**trim_str(char **tab);
+int		check_red_pos(char **str);
 
 t_node	**parser(t_node **node);
 t_node	**check_err(void);

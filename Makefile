@@ -6,6 +6,7 @@ SRC =	minishell.c\
 		pipes.c\
 		quotes.c\
 		directions.c\
+		util.c\
 
 CC = gcc
 

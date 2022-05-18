@@ -6,7 +6,7 @@
 /*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 15:21:18 by aabdou            #+#    #+#             */
-/*   Updated: 2022/05/17 18:56:18 by aabdou           ###   ########.fr       */
+/*   Updated: 2022/05/18 17:50:58 by aabdou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ t_node	**check_err(void)
 {
 	t_node	**node;
 	int		i;
+	char	**command;
+	char	**str;
 
 	i = 0;
 	 node = malloc(sizeof(t_node *));
@@ -46,7 +48,17 @@ t_node	**check_err(void)
 	}
 	*node = NULL;
 	if(check_pipes() == 0 || check_quotes() == 0 || check_directions() == 0)
-		printf("ERROR----\n");
+		return(NULL);
+	command = ft_split(var.user_input, '|');
+	str = trim_str(command);
+	if (check_red_pos(str) == 0)
+		return NULL;
+
+	// while(str[i])
+	// {
+	// 	printf("-%s-\n",str[i]);
+	// 	i++;
+	// }
 	return node;
 }
 
