@@ -6,7 +6,7 @@
 /*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 15:21:18 by aabdou            #+#    #+#             */
-/*   Updated: 2022/05/18 17:50:58 by aabdou           ###   ########.fr       */
+/*   Updated: 2022/05/19 21:23:56 by aabdou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_node	**parser(t_node **node)
 
 	i = 0;
 	str = ft_strtrim(var.user_input, " ");
-	printf("-%s-\n" ,str);
+	//printf("-%s-\n" ,str);
 	if (str[0] == '\0')
 	{
 		free(str);
@@ -53,12 +53,18 @@ t_node	**check_err(void)
 	str = trim_str(command);
 	if (check_red_pos(str) == 0)
 		return NULL;
-
-	// while(str[i])
-	// {
-	// 	printf("-%s-\n",str[i]);
-	// 	i++;
-	// }
+	fill_node(str,node);
+	int j = 0;
+	while((*node))
+	{
+		while((*node)->arg[j])
+		{
+			printf("-%s-\n", (*node)->arg[j]);
+			j++;
+		}
+		j = 0;
+		*node = (*node)->next;
+	}
 	return node;
 }
 

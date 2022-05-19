@@ -6,7 +6,7 @@
 /*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 21:00:43 by aabdou            #+#    #+#             */
-/*   Updated: 2022/05/17 18:54:18 by aabdou           ###   ########.fr       */
+/*   Updated: 2022/05/19 16:47:27 by aabdou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,14 +63,24 @@ void	init_shell(void)
 	}
 }
 
-int main(int ac, char **av)
+int main(int ac, char **av, char **envp)
 {
+	//t_env	*env;
+
 	(void)av;
 	(void)ac;
+	rl_catch_signals = 0;
+	var.exit_code = 0;
+	int i = 0;
+	while(envp[i])
+	{
+		printf("%s\n", envp[i]);
+		i++;
+	}
 	signal(SIGINT, sigint);  // ctr+c
 	signal(SIGQUIT, SIG_IGN);  /* ctr+\ */
 	signal(SIGTSTP, SIG_IGN); // ctr + z
-	rl_catch_signals = 0;
+	//env = fill_env(env);
 	init_shell();
-	return 0;
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 21:01:03 by aabdou            #+#    #+#             */
-/*   Updated: 2022/05/18 17:48:12 by aabdou           ###   ########.fr       */
+/*   Updated: 2022/05/19 20:08:13 by aabdou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,25 @@
 
 typedef struct s_node
 {
-	char	**args;
-
-}			t_node;
+	char			**arg;
+	struct s_node	*next;
+	struct s_node	*prev;
+}					t_node;
 
 struct	s_shell
 {
 	char	*user_input;
+	int		exit_code;
 
 }			var;
+
+typedef struct s_env
+{
+	char			*name;
+	char			*value;
+	struct s_env	*next;
+}					t_env;
+
 
 char	*get_prompt();
 void	sigint(int sig);
@@ -52,6 +62,12 @@ int		skip_quote(char *str, int i);
 
 char	**trim_str(char **tab);
 int		check_red_pos(char **str);
+
+
+t_node	*create_and_fill(char *cmd);
+t_node	*add_node_back(t_node *node);
+void	add_node(t_node **node, t_node *new);
+void	fill_node(char **str, t_node **node);
 
 t_node	**parser(t_node **node);
 t_node	**check_err(void);
