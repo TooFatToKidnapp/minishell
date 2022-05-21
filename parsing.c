@@ -6,7 +6,7 @@
 /*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 15:21:18 by aabdou            #+#    #+#             */
-/*   Updated: 2022/05/19 21:23:56 by aabdou           ###   ########.fr       */
+/*   Updated: 2022/05/21 15:17:17 by aabdou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,16 @@ t_node	**parser(t_node **node)
 
 	i = 0;
 	str = ft_strtrim(var.user_input, " ");
-	//printf("-%s-\n" ,str);
 	if (str[0] == '\0')
 	{
 		free(str);
 		return (NULL);
 	}
+	free(str);
 	if (var.user_input != '\0')
 	{
 		node = check_err();
 	}
-	free(str);
 	return (node);
 }
 
@@ -41,7 +40,7 @@ t_node	**check_err(void)
 	char	**str;
 
 	i = 0;
-	 node = malloc(sizeof(t_node *));
+	node = malloc(sizeof(t_node *));
 	if (node == NULL)
 	{
 		return(ft_putstr_fd("Error\n", 2), exit(EXIT_FAILURE), NULL);
@@ -51,20 +50,22 @@ t_node	**check_err(void)
 		return(NULL);
 	command = ft_split(var.user_input, '|');
 	str = trim_str(command);
+	free_2D(command);
 	if (check_red_pos(str) == 0)
-		return NULL;
+		return (free_2D(str), NULL);
 	fill_node(str,node);
-	int j = 0;
-	while((*node))
-	{
-		while((*node)->arg[j])
-		{
-			printf("-%s-\n", (*node)->arg[j]);
-			j++;
-		}
-		j = 0;
-		*node = (*node)->next;
-	}
+	// int j = 0;
+	// while((*node))
+	// {
+	// 	while((*node)->arg[j])
+	// 	{
+	// 		printf("-%s-\n", (*node)->arg[j]);
+	// 		j++;
+	// 	}
+	// 	j = 0;
+	// 	*node = (*node)->next;
+	// }
+	free_2D(str);
 	return node;
 }
 

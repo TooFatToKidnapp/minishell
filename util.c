@@ -6,7 +6,7 @@
 /*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 17:22:28 by aabdou            #+#    #+#             */
-/*   Updated: 2022/05/19 20:14:25 by aabdou           ###   ########.fr       */
+/*   Updated: 2022/05/21 15:19:39 by aabdou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ t_node	*create_and_fill(char *cmd)
 		i++;
 	new->arg = malloc(sizeof(char *) * i + 1);
 	if (new->arg == NULL)
-		return (perror("Error node"), exit(EXIT_FAILURE), NULL);
+		return (perror("Error node"), free_2D(str), exit(EXIT_FAILURE), NULL);
 	i = 0;
 	while (str[i])
 	{

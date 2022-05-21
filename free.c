@@ -6,7 +6,7 @@
 /*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 19:14:55 by aabdou            #+#    #+#             */
-/*   Updated: 2022/05/19 20:15:26 by aabdou           ###   ########.fr       */
+/*   Updated: 2022/05/21 15:14:56 by aabdou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,4 +23,24 @@ void	free_2D(char **str)
 		i++;
 	}
 	free(str);
+}
+
+void	free_list(t_node **node)
+{
+	t_node	*next;
+	t_node	*tmp;
+
+	if ((*node) == NULL)
+		return ;
+	next = (*node)->next;
+	free_2D((*node)->arg);
+	free((*node));
+	while (next)
+	{
+		tmp = next;
+		next = next->next;
+		free_2D(tmp->arg);
+		free(tmp);
+	}
+	free(node);
 }

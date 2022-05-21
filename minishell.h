@@ -6,7 +6,7 @@
 /*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 21:01:03 by aabdou            #+#    #+#             */
-/*   Updated: 2022/05/19 20:08:13 by aabdou           ###   ########.fr       */
+/*   Updated: 2022/05/20 18:52:58 by aabdou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ int		skip_quote(char *str, int i);
 
 char	**trim_str(char **tab);
 int		check_red_pos(char **str);
+void	free_list(t_node **node);
 
 
 t_node	*create_and_fill(char *cmd);

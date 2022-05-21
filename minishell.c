@@ -6,7 +6,7 @@
 /*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 21:00:43 by aabdou            #+#    #+#             */
-/*   Updated: 2022/05/19 16:47:27 by aabdou           ###   ########.fr       */
+/*   Updated: 2022/05/21 15:28:02 by aabdou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char	*get_prompt() //returns the prompt
 	return (s3);
 }
 
-void	init_shell(void)
+void	init_shell()
 {
 	char	*str;
 	t_node	**node;
@@ -47,36 +47,45 @@ void	init_shell(void)
 	{
 		str = get_prompt();
 		var.user_input = readline(str);
+		free(str);
 		if (var.user_input == NULL)
 		{
+			if ((*node) != NULL)
+				free_list(node);
+			free(var.user_input);
 			ft_putstr_fd("exit\n", 1);
-			break ;
+			exit (0);
 		}
 		if (var.user_input != NULL)
 			add_history(var.user_input);
 		node = NULL;
 		node = parser(node);
 		if(!ft_strcmp(var.user_input, "exit"))
+		{
+			if ((*node) != NULL)
+				free_list(node);
+			free(var.user_input);
 			exit(0);
-		free(str);
-		free(var.user_input);
+		}
 	}
+		free(var.user_input);
+		free_list(node);
 }
 
 int main(int ac, char **av, char **envp)
 {
 	//t_env	*env;
-
+	(void)envp;
 	(void)av;
 	(void)ac;
 	rl_catch_signals = 0;
 	var.exit_code = 0;
-	int i = 0;
-	while(envp[i])
-	{
-		printf("%s\n", envp[i]);
-		i++;
-	}
+	//int i = 0;
+	// while(envp[i])
+	// {
+	// 	printf("%s\n", envp[i]);
+	// 	i++;
+	// }
 	signal(SIGINT, sigint);  // ctr+c
 	signal(SIGQUIT, SIG_IGN);  /* ctr+\ */
 	signal(SIGTSTP, SIG_IGN); // ctr + z
