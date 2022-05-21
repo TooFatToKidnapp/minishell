@@ -6,7 +6,7 @@
 /*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 21:00:43 by aabdou            #+#    #+#             */
-/*   Updated: 2022/05/21 15:28:02 by aabdou           ###   ########.fr       */
+/*   Updated: 2022/05/21 19:44:30 by aabdou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,8 @@ void	init_shell()
 		free(str);
 		if (var.user_input == NULL)
 		{
-			if ((*node) != NULL)
-				free_list(node);
-			free(var.user_input);
 			ft_putstr_fd("exit\n", 1);
-			exit (0);
+			break;;
 		}
 		if (var.user_input != NULL)
 			add_history(var.user_input);
@@ -62,14 +59,16 @@ void	init_shell()
 		node = parser(node);
 		if(!ft_strcmp(var.user_input, "exit"))
 		{
-			if ((*node) != NULL)
+			if (node != NULL)
 				free_list(node);
 			free(var.user_input);
 			exit(0);
 		}
+		if (node != NULL)
+			free_list(node);
 	}
 		free(var.user_input);
-		free_list(node);
+
 }
 
 int main(int ac, char **av, char **envp)
