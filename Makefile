@@ -8,6 +8,7 @@ SRC =	minishell.c\
 		directions.c\
 		util.c\
 		free.c\
+		env.c\
 
 CC = gcc
 

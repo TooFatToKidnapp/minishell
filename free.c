@@ -6,7 +6,7 @@
 /*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 19:14:55 by aabdou            #+#    #+#             */
-/*   Updated: 2022/05/21 15:14:56 by aabdou           ###   ########.fr       */
+/*   Updated: 2022/05/22 17:55:49 by aabdou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,4 +43,25 @@ void	free_list(t_node **node)
 		free(tmp);
 	}
 	free(node);
+}
+
+void	free_env(t_env *env)
+{
+	t_env	*next;
+	t_env	*tmp;
+
+	if (env == NULL)
+		return ;
+	next = env->next;
+	free(env->value);
+	free(env->name);
+	free(env);
+	while (next)
+	{
+		tmp = next;
+		next = next->next;
+		free(tmp->value);
+		free(tmp->name);
+		free(tmp);
+	}
 }

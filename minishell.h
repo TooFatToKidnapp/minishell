@@ -6,7 +6,7 @@
 /*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 21:01:03 by aabdou            #+#    #+#             */
-/*   Updated: 2022/05/20 18:52:58 by aabdou           ###   ########.fr       */
+/*   Updated: 2022/05/22 17:52:43 by aabdou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,13 @@ int		skip_quote(char *str, int i);
 char	**trim_str(char **tab);
 int		check_red_pos(char **str);
 void	free_list(t_node **node);
+////
+t_env	*get_env(char **envp);
+char	*get_name(char *str);
+char	*get_value(char *str);
+void	add_var(t_env **env, char *str);
 
-
+////
 t_node	*create_and_fill(char *cmd);
 t_node	*add_node_back(t_node *node);
 void	add_node(t_node **node, t_node *new);
@@ -73,5 +78,6 @@ void	fill_node(char **str, t_node **node);
 t_node	**parser(t_node **node);
 t_node	**check_err(void);
 void	free_2D(char **str);
+void	free_env(t_env *env);
 
 #endif
