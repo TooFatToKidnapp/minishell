@@ -6,7 +6,7 @@
 /*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 20:45:57 by aabdou            #+#    #+#             */
-/*   Updated: 2022/05/22 17:46:55 by aabdou           ###   ########.fr       */
+/*   Updated: 2022/05/23 18:12:38 by aabdou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,6 @@ t_env	*get_env(char **envp)
 		env->name = ft_strdup("PWD");
 		env->value = ft_strdup(cwd);
 		env->next = NULL;
-		free(cwd);
 	}
 	return (env);
 }
