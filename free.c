@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 19:14:55 by aabdou            #+#    #+#             */
-/*   Updated: 2022/05/22 17:55:49 by aabdou           ###   ########.fr       */
+/*   Updated: 2022/05/25 15:59:01 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	free_list(t_node **node)
 	t_node	*tmp;
 
 	if ((*node) == NULL)
-		return ;
+		return (free(node));
 	next = (*node)->next;
 	free_2D((*node)->arg);
 	free((*node));

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 21:00:43 by aabdou            #+#    #+#             */
-/*   Updated: 2022/05/22 18:02:36 by aabdou           ###   ########.fr       */
+/*   Updated: 2022/05/25 15:45:53 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ void	init_shell()
 			free(var.user_input);
 			exit(0);
 		}
+		free(var.user_input);
 		if (node != NULL)
 			free_list(node);
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 15:21:18 by aabdou            #+#    #+#             */
-/*   Updated: 2022/05/21 15:17:17 by aabdou           ###   ########.fr       */
+/*   Updated: 2022/05/25 15:59:32 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,24 +47,13 @@ t_node	**check_err(void)
 	}
 	*node = NULL;
 	if(check_pipes() == 0 || check_quotes() == 0 || check_directions() == 0)
-		return(NULL);
+		return(free_list(node) ,NULL);
 	command = ft_split(var.user_input, '|');
 	str = trim_str(command);
 	free_2D(command);
 	if (check_red_pos(str) == 0)
-		return (free_2D(str), NULL);
+		return (free_2D(str), free_list(node), NULL);
 	fill_node(str,node);
-	// int j = 0;
-	// while((*node))
-	// {
-	// 	while((*node)->arg[j])
-	// 	{
-	// 		printf("-%s-\n", (*node)->arg[j]);
-	// 		j++;
-	// 	}
-	// 	j = 0;
-	// 	*node = (*node)->next;
-	// }
 	free_2D(str);
 	return node;
 }
