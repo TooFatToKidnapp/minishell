@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 21:00:43 by aabdou            #+#    #+#             */
-/*   Updated: 2022/05/25 15:45:53 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/05/27 20:24:48 by aabdou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char	*get_prompt() //returns the prompt
 	return (s3);
 }
 
-void	init_shell()
+void	init_shell(t_env *env)
 {
 	char	*str;
 	t_node	**node;
@@ -55,8 +55,17 @@ void	init_shell()
 		}
 		if (var.user_input != NULL)
 			add_history(var.user_input);
-		node = NULL;
+		//node = NULL;
+		printf("*****\n");
 		node = parser(node);
+		printf("*****\n");
+		if (node!= NULL)
+		{
+			if (ft_strcmp((*node)->arg[0] , "cd") == 0)
+			{
+				cd((*node)->arg, env);
+			}
+		}
 		if(!ft_strcmp(var.user_input, "exit"))
 		{
 			if (node != NULL)
@@ -82,7 +91,7 @@ int main(int ac, char **av, char **envp)
 	signal(SIGQUIT, SIG_IGN);  /* ctr+\ */
 	signal(SIGTSTP, SIG_IGN); // ctr + z
 	env = get_env(envp);
-	init_shell();
+	init_shell(env);
 	free_env(env);
 	return (0);
 }

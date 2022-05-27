@@ -6,7 +6,7 @@
 /*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 21:01:03 by aabdou            #+#    #+#             */
-/*   Updated: 2022/05/22 17:52:43 by aabdou           ###   ########.fr       */
+/*   Updated: 2022/05/27 19:03:41 by aabdou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,13 @@ char	*get_value(char *str);
 void	add_var(t_env **env, char *str);
 
 ////
+
+////cd/////
+char	*get_full_path(char *str, char *home);
+char	*get_home(t_env *env);
+int		change_dir(char **str, int i, t_env *env);
+void	cd(char **arg, t_env *env);
+////////
 t_node	*create_and_fill(char *cmd);
 t_node	*add_node_back(t_node *node);
 void	add_node(t_node **node, t_node *new);
