@@ -6,7 +6,7 @@
 /*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 14:30:41 by aabdou            #+#    #+#             */
-/*   Updated: 2022/05/27 20:17:37 by aabdou           ###   ########.fr       */
+/*   Updated: 2022/05/27 23:20:19 by aabdou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,28 +52,30 @@ char	*get_home(t_env *env)
 }
 
 
-int	change_dir(char **str, int i, t_env *env)
+void 	change_dir(char **str, int *i, t_env *env)
 {
 	char	*home;
 	char	*dir;
+	char	*path;
 
+	path = ft_strtrim(str[1], "\'\"");
 	home = get_home(env);
-	if (str[1] != NULL && str[1][0] == '~')
+	if (path != NULL && path[0] == '~')
 	{
-		dir = get_full_path(str[1], home);
-		i = chdir(dir);
+		dir = get_full_path(path, home);
+		(*i) = chdir(dir);
 		free(dir);
 	}
-	else if (str[1] != NULL && str[1][0] != '~')
-		i = chdir(str[1]);
-	else if (str[1])
+	else if (path != NULL && path[0] != '~')
+		(*i) = chdir(path);
+	else if (path)
 	{
 		if (home)
-			i = chdir(home);
+			(*i) = chdir(home);
 		else
 			printf("Minishell : Error can't find HOME\n");
 	}
-	return (i);
+	free(path);
 }
 
 void	cd(char **arg, t_env *env)
@@ -84,13 +86,13 @@ void	cd(char **arg, t_env *env)
 
 	i = 0;
 	getcwd(current_dir, 1024);
-	i = change_dir(arg, i , env);
+	change_dir(arg, &i , env);
 	if (i == -1)
 		printf("cd : %s no such file in directory\n", arg[1]);
-	// else if (env == NULL)
+	// else if (env->next == NULL)
 	// {
 	// 	getcwd(new_dir, 1024);
-	// 	change_dir()
+	// 	create_or_change_env()
 	// }
 
 }

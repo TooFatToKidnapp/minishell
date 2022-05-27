@@ -6,7 +6,7 @@
 /*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 21:00:43 by aabdou            #+#    #+#             */
-/*   Updated: 2022/05/27 20:24:48 by aabdou           ###   ########.fr       */
+/*   Updated: 2022/05/27 20:45:11 by aabdou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,8 @@ void	init_shell(t_env *env)
 		}
 		if (var.user_input != NULL)
 			add_history(var.user_input);
-		//node = NULL;
-		printf("*****\n");
 		node = parser(node);
-		printf("*****\n");
-		if (node!= NULL)
+		if (node != NULL)
 		{
 			if (ft_strcmp((*node)->arg[0] , "cd") == 0)
 			{
