@@ -6,7 +6,7 @@
 /*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 21:01:03 by aabdou            #+#    #+#             */
-/*   Updated: 2022/05/27 23:11:19 by aabdou           ###   ########.fr       */
+/*   Updated: 2022/05/28 20:36:24 by aabdou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 
 typedef struct s_node
 {
+	int				index;
 	char			**arg;
 	struct s_node	*next;
 	struct s_node	*prev;
@@ -76,8 +77,9 @@ char	*get_full_path(char *str, char *home);
 char	*get_home(t_env *env);
 void	change_dir(char **str, int *i, t_env *env);
 void	cd(char **arg, t_env *env);
+void	create_or_change_env(t_env *env, char *name, char *value, int len);
 ////////
-t_node	*create_and_fill(char *cmd);
+t_node	*create_and_fill(char *cmd, int index);
 t_node	*add_node_back(t_node *node);
 void	add_node(t_node **node, t_node *new);
 void	fill_node(char **str, t_node **node);

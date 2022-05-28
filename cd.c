@@ -6,11 +6,39 @@
 /*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 14:30:41 by aabdou            #+#    #+#             */
-/*   Updated: 2022/05/27 23:20:19 by aabdou           ###   ########.fr       */
+/*   Updated: 2022/05/28 20:53:41 by aabdou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"minishell.h"
+
+void	create_or_change_env(t_env *env, char *name, char *value, int len)
+{
+	t_env	*node;
+	while (env != NULL && env->next != NULL)
+	{
+		if (ft_strcmp(env->name, name) == 0 && ft_strlcpy(env->value, value, len + 1))
+			break;
+		env = env->next;
+	}
+	if (env != NULL && ft_strcmp(env->name, name) == 0)
+	{
+		ft_strlcpy(env->value, value, len +1);
+		return ;
+	}
+	if (env == NULL || env->next == NULL)
+	{
+		node = (t_env *)malloc(sizeof(t_env));
+		if (node == NULL)
+			return (perror("Error malloc"), exit(EXIT_FAILURE));
+		node->name = ft_strdup(name);
+		node->value = ft_strdup(value);
+		node->next = NULL;
+		if (env != NULL)
+			env->next = node;
+	}
+	return;
+}
 
 char	*get_full_path(char *str, char *home)
 {
@@ -60,6 +88,8 @@ void 	change_dir(char **str, int *i, t_env *env)
 
 	path = ft_strtrim(str[1], "\'\"");
 	home = get_home(env);
+	if (home == NULL)
+		return;
 	if (path != NULL && path[0] == '~')
 	{
 		dir = get_full_path(path, home);
@@ -68,7 +98,7 @@ void 	change_dir(char **str, int *i, t_env *env)
 	}
 	else if (path != NULL && path[0] != '~')
 		(*i) = chdir(path);
-	else if (path)
+	else if (path == NULL)
 	{
 		if (home)
 			(*i) = chdir(home);
@@ -82,17 +112,18 @@ void	cd(char **arg, t_env *env)
 {
 	int		i;
 	char	current_dir[1024];
-	//char	new_dir[1024];
+	char	new_dir[1024];
 
 	i = 0;
 	getcwd(current_dir, 1024);
 	change_dir(arg, &i , env);
 	if (i == -1)
 		printf("cd : %s no such file in directory\n", arg[1]);
-	// else if (env->next == NULL)
-	// {
-	// 	getcwd(new_dir, 1024);
-	// 	create_or_change_env()
-	// }
-
+	else if (env->next == NULL || env->next->next == NULL)
+	{
+		getcwd(new_dir, 1024);
+		create_or_change_env(env, "PWD", new_dir, ft_strlen(new_dir));                   // <== still         && cd ~ on a empty env segfaults :/
+		if (ft_strcmp(current_dir, new_dir))											//	 <==  needs
+			create_or_change_env(env, "OLDPWD", current_dir, ft_strlen(current_dir));	// <== testing
+	}
 }
