@@ -6,7 +6,7 @@
 /*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 21:01:03 by aabdou            #+#    #+#             */
-/*   Updated: 2022/05/29 14:35:55 by aabdou           ###   ########.fr       */
+/*   Updated: 2022/05/29 18:36:49 by aabdou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,13 @@ void	change_dir(char **str, int *i, t_env *env);
 void	cd(char **arg, t_env *env);
 void	create_or_change_env(t_env *env, char *name, char *value, int len);
 ////////
+////pwd////
+void	pwd(void);
+/////////////
+////echo////
+void	echo(char **str);
+int		ft_checkflag(char *str);
+/////////////
 t_node	*create_and_fill(char *cmd, int index);
 t_node	*add_node_back(t_node *node);
 void	add_node(t_node **node, t_node *new);
@@ -88,7 +95,6 @@ t_node	**parser(t_node **node);
 t_node	**check_err(void);
 void	free_2D(char **str);
 void	free_env(t_env *env);
-
 
 
 

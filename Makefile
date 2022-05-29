@@ -10,6 +10,7 @@ SRC =	minishell.c\
 		free.c\
 		env.c\
 		cd.c\
+		echo.c\
 
 CC = gcc
 

@@ -6,7 +6,7 @@
 /*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 21:00:43 by aabdou            #+#    #+#             */
-/*   Updated: 2022/05/29 14:31:04 by aabdou           ###   ########.fr       */
+/*   Updated: 2022/05/29 17:53:51 by aabdou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,11 @@ void	init_shell(t_env *env)
 		if (node != NULL)
 		{
 			if (ft_strcmp((*node)->arg[0] , "cd") == 0)
-			{
 				cd((*node)->arg, env);
-			}
+			if (ft_strcmp((*node)->arg[0] , "pwd") == 0)
+				pwd();
+			if (ft_strcmp((*node)->arg[0] , "echo") == 0)
+				echo((*node)->arg);
 		}
 		if(!ft_strcmp(var.user_input, "exit"))
 		{

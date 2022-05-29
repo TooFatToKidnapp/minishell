@@ -6,7 +6,7 @@
 /*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/18 17:49:59 by aabdou            #+#    #+#             */
-/*   Updated: 2022/05/13 15:49:58 by aabdou           ###   ########.fr       */
+/*   Updated: 2022/05/29 16:50:32 by aabdou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,12 @@
 char	*get_pwd(void)
 {
 	char *str = getcwd(NULL, 1024);
-	// system("whoami");
-	// char *s1 = ft_strtrim(str, "/Users/aabdou/Desktop/");
-	//free(str);
 	return(free(str), str);
+}
+
+void	pwd(void)
+{
+	char str[1024];
+	getcwd(str, 1024);
+	printf("%s\n", str);
 }
