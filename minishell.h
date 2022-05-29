@@ -6,7 +6,7 @@
 /*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 21:01:03 by aabdou            #+#    #+#             */
-/*   Updated: 2022/05/28 20:36:24 by aabdou           ###   ########.fr       */
+/*   Updated: 2022/05/29 14:35:55 by aabdou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,5 +88,11 @@ t_node	**parser(t_node **node);
 t_node	**check_err(void);
 void	free_2D(char **str);
 void	free_env(t_env *env);
+
+
+
+
+
+void	printBRUH(t_env *env);
 
 #endif

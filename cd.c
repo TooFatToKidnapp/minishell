@@ -6,7 +6,7 @@
 /*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 14:30:41 by aabdou            #+#    #+#             */
-/*   Updated: 2022/05/28 20:53:41 by aabdou           ###   ########.fr       */
+/*   Updated: 2022/05/29 16:39:39 by aabdou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ char	*get_full_path(char *str, char *home)
 
 	i = 0;
 	j = 1;
+	if(home == NULL)
+		return NULL;
 	while (str[i] != '\0')
 		i++;
 	dir = malloc(sizeof(char ) * (ft_strlen(home) + i));
@@ -59,11 +61,7 @@ char	*get_full_path(char *str, char *home)
 	while (dir[i])
 		i++;
 	while (str[j])
-	{
-		dir[i] = str[j];
-		i++;
-		j++;
-	}
+		dir[i++] = str[j++];
 	dir[i] = '\0';
 	return (dir);
 }
@@ -88,8 +86,6 @@ void 	change_dir(char **str, int *i, t_env *env)
 
 	path = ft_strtrim(str[1], "\'\"");
 	home = get_home(env);
-	if (home == NULL)
-		return;
 	if (path != NULL && path[0] == '~')
 	{
 		dir = get_full_path(path, home);
@@ -122,8 +118,8 @@ void	cd(char **arg, t_env *env)
 	else if (env->next == NULL || env->next->next == NULL)
 	{
 		getcwd(new_dir, 1024);
-		create_or_change_env(env, "PWD", new_dir, ft_strlen(new_dir));                   // <== still         && cd ~ on a empty env segfaults :/
-		if (ft_strcmp(current_dir, new_dir))											//	 <==  needs
-			create_or_change_env(env, "OLDPWD", current_dir, ft_strlen(current_dir));	// <== testing
+		create_or_change_env(env, "PWD", new_dir, ft_strlen(new_dir));
+		if (ft_strcmp(current_dir, new_dir))
+			create_or_change_env(env, "OLDPWD", current_dir, ft_strlen(current_dir));
 	}
 }

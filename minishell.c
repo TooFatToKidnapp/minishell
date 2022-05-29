@@ -6,7 +6,7 @@
 /*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 21:00:43 by aabdou            #+#    #+#             */
-/*   Updated: 2022/05/27 20:45:11 by aabdou           ###   ########.fr       */
+/*   Updated: 2022/05/29 14:31:04 by aabdou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ void	init_shell(t_env *env)
 		if (var.user_input != NULL)
 			add_history(var.user_input);
 		node = parser(node);
+		printBRUH(env);
 		if (node != NULL)
 		{
 			if (ft_strcmp((*node)->arg[0] , "cd") == 0)
@@ -75,6 +76,21 @@ void	init_shell(t_env *env)
 			free_list(node);
 	}
 		free(var.user_input);
+}
+
+void	printBRUH(t_env *env)
+{
+	t_env *head;
+	head = env;
+	if (ft_strcmp(var.user_input ,"print") == 0)
+	{
+		while(env)
+		{
+			printf("%s=%s\n", env->name, env->value);
+			env = env->next;
+		}
+	}
+	env = head;
 }
 
 int main(int ac, char **av, char **envp)
