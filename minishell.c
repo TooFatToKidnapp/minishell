@@ -6,7 +6,7 @@
 /*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 21:00:43 by aabdou            #+#    #+#             */
-/*   Updated: 2022/05/29 17:53:51 by aabdou           ###   ########.fr       */
+/*   Updated: 2022/05/30 17:23:52 by aabdou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,11 @@ char	*get_prompt() //returns the prompt
 	s1 = ft_strdup("\e[1;33mMinishell:\e[0;37m");
 	s2 = ft_strdup("\e[1;34m");
 	s3 = ft_strjoin(s2,get_pwd());
+	free(s2);
 	s2 = ft_strjoin(s3,"$ \e[0;37m");
+	free(s3);
 	s3 = ft_strjoin(s1, s2);
+	free(s1);
 	free(s2);
 	return (s3);
 }
@@ -56,15 +59,16 @@ void	init_shell(t_env *env)
 		if (var.user_input != NULL)
 			add_history(var.user_input);
 		node = parser(node);
-		printBRUH(env);
 		if (node != NULL)
 		{
-			if (ft_strcmp((*node)->arg[0] , "cd") == 0)
+			if (ft_strcmp((*node)->arg[0] , "cd") == 0 || ft_strcmp((*node)->arg[0] , "/usr/bin/cd") == 0)
 				cd((*node)->arg, env);
 			if (ft_strcmp((*node)->arg[0] , "pwd") == 0)
 				pwd();
 			if (ft_strcmp((*node)->arg[0] , "echo") == 0)
 				echo((*node)->arg);
+			if (ft_strcmp((*node)->arg[0] , "env") == 0)
+				print_env(env);
 		}
 		if(!ft_strcmp(var.user_input, "exit"))
 		{
@@ -78,21 +82,6 @@ void	init_shell(t_env *env)
 			free_list(node);
 	}
 		free(var.user_input);
-}
-
-void	printBRUH(t_env *env)
-{
-	t_env *head;
-	head = env;
-	if (ft_strcmp(var.user_input ,"print") == 0)
-	{
-		while(env)
-		{
-			printf("%s=%s\n", env->name, env->value);
-			env = env->next;
-		}
-	}
-	env = head;
 }
 
 int main(int ac, char **av, char **envp)

@@ -6,7 +6,7 @@
 /*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 21:01:03 by aabdou            #+#    #+#             */
-/*   Updated: 2022/05/29 18:36:49 by aabdou           ###   ########.fr       */
+/*   Updated: 2022/05/30 14:44:55 by aabdou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,6 @@ void	free_env(t_env *env);
 
 
 
-void	printBRUH(t_env *env);
+void	print_env(t_env *env);
 
 #endif

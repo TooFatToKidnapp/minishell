@@ -6,7 +6,7 @@
 /*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 20:45:57 by aabdou            #+#    #+#             */
-/*   Updated: 2022/05/23 18:12:38 by aabdou           ###   ########.fr       */
+/*   Updated: 2022/05/30 14:51:25 by aabdou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,4 +89,16 @@ t_env	*get_env(char **envp)
 		env->next = NULL;
 	}
 	return (env);
+}
+
+void	print_env(t_env *env)
+{
+	while(env != NULL)
+	{	if (env->value != NULL)
+			printf("%s=%s\n", env->name, env->value);
+		if (env->next != NULL)
+			env = env->next;
+		else
+			break;
+	}
 }

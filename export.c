@@ -1,29 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strjoin.c                                       :+:      :+:    :+:   */
+/*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/01 20:46:47 by aabdou            #+#    #+#             */
-/*   Updated: 2022/05/30 17:24:26 by aabdou           ###   ########.fr       */
+/*   Created: 2022/05/30 18:00:27 by aabdou            #+#    #+#             */
+/*   Updated: 2022/05/30 19:30:03 by aabdou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"libft.h"
+#include "minishell.h"
 
-char	*ft_strjoin(char const *s1, char const *s2)
+int	list_len()
+
+void	sort_and_print_env(t_env *env)
 {
-	size_t	len;
-	char	*s3;
+	char	**tmp_str;
+	int		i;
 
-	if (!s1)
-		return ((char *)s2);
-	len = ft_strlen(s1) + ft_strlen(s2) + 1;
-	s3 = (char *)malloc(sizeof(char) * len);
-	if (s3 == 0)
-		return (0);
-	ft_strlcpy(s3, s1, ft_strlen(s1) + 1);
-	ft_strlcat(s3, s2, len);
-	return (s3);
+	tmp_str = sort_tmp_str(env, list_len(env));
+}
+
+void	export(t_env *env, char **str, char **envp)
+{
+	int		i;
+	char	**tmp_envp;
+
+	if (str[1] == '\0')
+		sort_and_print_env(env);
 }
