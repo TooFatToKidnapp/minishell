@@ -6,7 +6,7 @@
 /*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 21:00:43 by aabdou            #+#    #+#             */
-/*   Updated: 2022/05/30 17:23:52 by aabdou           ###   ########.fr       */
+/*   Updated: 2022/06/01 18:06:49 by aabdou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ char	*get_prompt() //returns the prompt
 	return (s3);
 }
 
-void	init_shell(t_env *env)
+void	init_shell(t_env *env, char **envp)
 {
 	char	*str;
 	t_node	**node;
@@ -63,12 +63,14 @@ void	init_shell(t_env *env)
 		{
 			if (ft_strcmp((*node)->arg[0] , "cd") == 0 || ft_strcmp((*node)->arg[0] , "/usr/bin/cd") == 0)
 				cd((*node)->arg, env);
-			if (ft_strcmp((*node)->arg[0] , "pwd") == 0)
+			else if (ft_strcmp((*node)->arg[0] , "pwd") == 0)
 				pwd();
-			if (ft_strcmp((*node)->arg[0] , "echo") == 0)
+			else if (ft_strcmp((*node)->arg[0] , "echo") == 0)
 				echo((*node)->arg);
-			if (ft_strcmp((*node)->arg[0] , "env") == 0)
+			else if (ft_strcmp((*node)->arg[0] , "env") == 0)
 				print_env(env);
+			else if (ft_strcmp((*node)->arg[0] , "export") == 0)
+				export(env, (*node)->arg, envp);
 		}
 		if(!ft_strcmp(var.user_input, "exit"))
 		{
@@ -81,7 +83,7 @@ void	init_shell(t_env *env)
 		if (node != NULL)
 			free_list(node);
 	}
-		free(var.user_input);
+	free(var.user_input);
 }
 
 int main(int ac, char **av, char **envp)
@@ -95,7 +97,7 @@ int main(int ac, char **av, char **envp)
 	signal(SIGQUIT, SIG_IGN);  /* ctr+\ */
 	signal(SIGTSTP, SIG_IGN); // ctr + z
 	env = get_env(envp);
-	init_shell(env);
+	init_shell(env, envp);
 	free_env(env);
 	return (0);
 }

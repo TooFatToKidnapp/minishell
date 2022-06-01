@@ -6,7 +6,7 @@
 /*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/18 17:49:59 by aabdou            #+#    #+#             */
-/*   Updated: 2022/05/29 16:50:32 by aabdou           ###   ########.fr       */
+/*   Updated: 2022/06/01 18:04:27 by aabdou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 
 char	*get_pwd(void)
 {
-	char *str = getcwd(NULL, 1024);
-	return(free(str), str);
+	char str[1024];
+	getcwd(str, 1024);
+	return(ft_strdup(str));
 }
 
 void	pwd(void)

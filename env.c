@@ -6,7 +6,7 @@
 /*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 20:45:57 by aabdou            #+#    #+#             */
-/*   Updated: 2022/05/30 14:51:25 by aabdou           ###   ########.fr       */
+/*   Updated: 2022/06/01 19:18:21 by aabdou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,12 @@ t_env	*get_env(char **envp)
 		env->name = ft_strdup("PWD");
 		env->value = ft_strdup(cwd);
 		env->next = NULL;
+		// t_env *env2 = (t_env *)malloc(sizeof(t_env));
+		// if (!env)
+		// 	return (perror("Error malloc"), exit(EXIT_FAILURE), NULL);
+		// env->name = ft_strdup("PATH");
+		// env->value = _PATH_STDPATH;
+		// env->next = env2;
 	}
 	return (env);
 }
@@ -94,7 +100,8 @@ t_env	*get_env(char **envp)
 void	print_env(t_env *env)
 {
 	while(env != NULL)
-	{	if (env->value != NULL)
+	{
+		if (env->value != NULL)
 			printf("%s=%s\n", env->name, env->value);
 		if (env->next != NULL)
 			env = env->next;

@@ -6,7 +6,7 @@
 /*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 21:01:03 by aabdou            #+#    #+#             */
-/*   Updated: 2022/05/30 14:44:55 by aabdou           ###   ########.fr       */
+/*   Updated: 2022/06/01 17:29:20 by aabdou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 #include "libft/libft.h"
 #include <signal.h>
 #include <stdbool.h>
+#include <paths.h>
 
 typedef struct s_node
 {
@@ -86,6 +87,15 @@ void	pwd(void);
 void	echo(char **str);
 int		ft_checkflag(char *str);
 /////////////
+/////export/////////
+
+void	export(t_env *env, char **str, char **envp);
+void	sort_and_print_env(t_env *env);
+char	**sort_2D_str(t_env *node, int len);
+char	**fill_2D(t_env *node, int len);
+char	**fill_block_in_2D(t_env *node, int i, char **tmp);
+int	list_len(t_env *node);
+///////////////////
 t_node	*create_and_fill(char *cmd, int index);
 t_node	*add_node_back(t_node *node);
 void	add_node(t_node **node, t_node *new);
