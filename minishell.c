@@ -6,7 +6,7 @@
 /*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 21:00:43 by aabdou            #+#    #+#             */
-/*   Updated: 2022/06/01 18:06:49 by aabdou           ###   ########.fr       */
+/*   Updated: 2022/06/02 15:33:44 by aabdou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,13 @@ char	*get_prompt() //returns the prompt
 	char	*s1;
 	char	*s2;
 	char	*s3;
+	char	*pwd;
 
 	s1 = ft_strdup("\e[1;33mMinishell:\e[0;37m");
 	s2 = ft_strdup("\e[1;34m");
-	s3 = ft_strjoin(s2,get_pwd());
+	pwd = get_pwd();
+	s3 = ft_strjoin(s2,pwd);
+	free(pwd);
 	free(s2);
 	s2 = ft_strjoin(s3,"$ \e[0;37m");
 	free(s3);
