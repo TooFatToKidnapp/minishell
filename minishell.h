@@ -6,7 +6,7 @@
 /*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 21:01:03 by aabdou            #+#    #+#             */
-/*   Updated: 2022/06/01 17:29:20 by aabdou           ###   ########.fr       */
+/*   Updated: 2022/06/04 22:52:55 by aabdou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,8 +94,25 @@ void	sort_and_print_env(t_env *env);
 char	**sort_2D_str(t_env *node, int len);
 char	**fill_2D(t_env *node, int len);
 char	**fill_block_in_2D(t_env *node, int i, char **tmp);
-int	list_len(t_env *node);
+int		list_len(t_env *node);
+
+///////
+int	ft_add_to_env(t_env *env, char *str, int i, int equal_pos);
+void	*update_env(t_env *env, char *name, char *value);
+void	new_env(char *name, char *value, t_env *env);
+int	check_identifier(char *str);
+void	allocate(char **name, char **value, char *str, int pos);
+int	get_equal_pos(char *str);
+int check_and_change(char *str, t_env *env);
+char	**fill_tmp_envp(t_env *env);
+void	copy_to_envp(char **tmp_envp, char **envp);
 ///////////////////
+
+//////////env///////
+void	print_env(t_env *env);
+t_env	*create_PATH_PWD(void);
+/////////////////////
+
 t_node	*create_and_fill(char *cmd, int index);
 t_node	*add_node_back(t_node *node);
 void	add_node(t_node **node, t_node *new);
@@ -109,6 +126,5 @@ void	free_env(t_env *env);
 
 
 
-void	print_env(t_env *env);
 
 #endif

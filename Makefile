@@ -12,6 +12,8 @@ SRC =	minishell.c\
 		cd.c\
 		echo.c\
 		export.c\
+		export_util.c\
+		export_util2.c\
 
 CC = gcc
 

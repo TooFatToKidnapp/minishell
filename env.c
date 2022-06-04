@@ -6,7 +6,7 @@
 /*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 20:45:57 by aabdou            #+#    #+#             */
-/*   Updated: 2022/06/02 15:39:43 by aabdou           ###   ########.fr       */
+/*   Updated: 2022/06/02 17:36:38 by aabdou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ void	add_var(t_env **env, char *str)
 t_env	*get_env(char **envp)
 {
 	t_env	*env;
-	char	cwd[1024];
 	int		i;
 
 	i = 0;
@@ -79,34 +78,28 @@ t_env	*get_env(char **envp)
 		i++;
 	}
 	if (envp[0] == NULL)
-	{
+		env = create_PATH_PWD();
+	return (env);
+}
+
+t_env	*create_PATH_PWD(void)
+{
+		char	cwd[1024];
+		t_env	*env;
+		t_env	*env2;
+
 		getcwd(cwd, 1024);
 		env = (t_env *)malloc(sizeof(t_env));
 		if (!env)
 			return (perror("Error malloc"), exit(EXIT_FAILURE), NULL);
 		env->name = ft_strdup("PWD");
 		env->value = ft_strdup(cwd);
-		env->next = NULL;
-		t_env *env2 = (t_env *)malloc(sizeof(t_env));
-		if (!env)
+		env2 = (t_env *)malloc(sizeof(t_env));
+		if (!env2)
 			return (perror("Error malloc"), exit(EXIT_FAILURE), NULL);
 		env2->name = ft_strdup("PATH");
 		env2->value = _PATH_STDPATH;
 		env->next = env2;
 		env2->next = NULL;
-	}
-	return (env);
-}
-
-void	print_env(t_env *env)
-{
-	while(env != NULL)
-	{
-		if (env->value != NULL)
-			printf("%s=%s\n", env->name, env->value);
-		if (env->next != NULL)
-			env = env->next;
-		else
-			break;
-	}
+		return (env);
 }
