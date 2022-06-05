@@ -6,7 +6,7 @@
 /*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 18:00:27 by aabdou            #+#    #+#             */
-/*   Updated: 2022/06/04 22:56:30 by aabdou           ###   ########.fr       */
+/*   Updated: 2022/06/05 19:36:43 by aabdou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,13 @@ char	**fill_tmp_envp(t_env *env)
 	tmp_envp = malloc(sizeof(char *) * list_len(env) + 1);
 	if (tmp_envp == NULL)
 		exit(EXIT_FAILURE);
-	while (env)
+	while (env != NULL)
 	{
 		tmp_name = ft_strjoin(env->name, "=");
-		tmp_envp[i] = ft_strjoin(tmp_name, env->value);
+		if (env->value)
+			tmp_envp[i] = ft_strjoin(tmp_name, env->value);
+		else
+			tmp_envp[i] = ft_strdup(tmp_name);
 		free(tmp_name);
 		if (env->next)
 		{
@@ -50,7 +53,7 @@ char	**fill_tmp_envp(t_env *env)
 			env = env->next;
 		}
 		else
-			break;
+			break ;
 	}
 	tmp_envp[i + 1] = NULL;
 	return (tmp_envp);
@@ -92,8 +95,8 @@ void	sort_and_print_env(t_env *env)
 void	export(t_env *env, char **str, char **envp)
 {
 	int		i;
-	//char	**tmp_envp;
-(void)envp;
+	char	**tmp_envp;
+
 	i = 0;
 	if (str[1] == '\0' || str[1][0] == '#')
 		sort_and_print_env(env);
@@ -104,7 +107,7 @@ void	export(t_env *env, char **str, char **envp)
 			if (check_and_change(str[i], env))
 				return;
 		}
-		// tmp_envp = fill_tmp_envp(env);
-		// copy_to_envp(tmp_envp, envp);
+		tmp_envp = fill_tmp_envp(env);
+		copy_to_envp(tmp_envp, envp);
 	}
  }

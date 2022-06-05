@@ -6,7 +6,7 @@
 /*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 18:37:39 by aabdou            #+#    #+#             */
-/*   Updated: 2022/06/04 22:38:03 by aabdou           ###   ########.fr       */
+/*   Updated: 2022/06/05 20:18:37 by aabdou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,21 +78,21 @@ void	new_env(char *name, char *value, t_env *env)
 
 void	*update_env(t_env *env, char *name, char *value)
 {
-	char	*trimd_value;
+	char	*tr_val;
 
-	trimd_value = ft_strtrim(value, "\"\'");
+	tr_val = ft_strtrim(value, "\"\'");
 	while (env)
 	{
 		if (!ft_strcmp(name, env->name))
 		{
-			if (!value && ((env->value && env->value[0] == '\0') || !env->value))
+			if ((!tr_val && ((env->value && env->value[0] == '\0')
+				|| !env->value)) || (env->value && !tr_val))
 				return (NULL);
-			else if (trimd_value)
+			else if (tr_val)
 			{
 				if (env->value)
 					free(env->value);
-				env->value = ft_strdup(trimd_value);
-				return(free(trimd_value), NULL);
+				return (env->value = ft_strdup(tr_val), free(tr_val), NULL);
 			}
 		}
 		if (env->next)
@@ -101,6 +101,6 @@ void	*update_env(t_env *env, char *name, char *value)
 			break;
 	}
 	if (env && !env->next)
-		new_env(name, trimd_value, env);
-	return(free(trimd_value), NULL);
+		new_env(name, tr_val, env);
+	return(free(tr_val), NULL);
 }

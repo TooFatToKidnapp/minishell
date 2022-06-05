@@ -6,7 +6,7 @@
 /*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 18:06:45 by aabdou            #+#    #+#             */
-/*   Updated: 2022/06/04 19:39:52 by aabdou           ###   ########.fr       */
+/*   Updated: 2022/06/05 16:38:06 by aabdou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ char	**fill_block_in_2D(t_env *node, int i, char **tmp)
 	}
 	else
 	{
-		tmp_name = ft_strdup(tmp_name);
+		tmp_name = ft_strdup(node->name);
 		str = ft_strdup(tmp_name);
 		free(tmp_name);
 	}
