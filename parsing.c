@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
+/*   By: skinnyleg <skinnyleg@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 15:21:18 by aabdou            #+#    #+#             */
-/*   Updated: 2022/06/03 14:08:50 by aabdou           ###   ########.fr       */
+/*   Updated: 2022/06/07 23:21:19 by skinnyleg        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,8 @@
 
 t_node	**parser(t_node **node)
 {
-	int		i;
 	char	*str;
 
-	i = 0;
 	str = ft_strtrim(var.user_input, " ");
 	if (str[0] == '\0')
 	{
@@ -25,7 +23,7 @@ t_node	**parser(t_node **node)
 		return (NULL);
 	}
 	free(str);
-	if (var.user_input != '\0')
+	if (var.user_input != NULL)
 	{
 		node = check_err();
 	}
@@ -35,11 +33,9 @@ t_node	**parser(t_node **node)
 t_node	**check_err(void)
 {
 	t_node	**node;
-	int		i;
 	char	**command;
 	char	**str;
 
-	i = 0;
 	node = malloc(sizeof(t_node *));
 	if (node == NULL)
 	{

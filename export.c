@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
+/*   By: skinnyleg <skinnyleg@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 18:00:27 by aabdou            #+#    #+#             */
-/*   Updated: 2022/06/05 19:36:43 by aabdou           ###   ########.fr       */
+/*   Updated: 2022/06/07 23:21:57 by skinnyleg        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ void	export(t_env *env, char **str, char **envp)
 	char	**tmp_envp;
 
 	i = 0;
-	if (str[1] == '\0' || str[1][0] == '#')
+	if (str[1] == NULL || str[1][0] == '#')
 		sort_and_print_env(env);
 	else
 	{

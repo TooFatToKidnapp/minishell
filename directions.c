@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   directions.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
+/*   By: skinnyleg <skinnyleg@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 20:00:59 by aabdou            #+#    #+#             */
-/*   Updated: 2022/05/18 17:50:28 by aabdou           ###   ########.fr       */
+/*   Updated: 2022/06/07 23:21:30 by skinnyleg        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,8 @@
 
 int	check_directions(void) // needs free str
 {
-	int		i;
 	char	*str;
 
-	i = 0;
 	str = ft_strdup(var.user_input);
 	if(check_syntax_right() == 0)
 		return (free(str), 0);

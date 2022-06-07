@@ -31,7 +31,7 @@ all : ft_libft $(NAME)
 		$(CC) $(FLAGS) -I $(shell brew --prefix readline)/include -c $< -o $@
 
 $(NAME) : $(OBJ)
-	$(CC) $(FLAGS) libft/libft.a $(OBJ) -L  $(shell brew --prefix readline)/lib -lreadline -ggdb3 -o $(NAME)
+	$(CC) $(FLAGS) $(OBJ) libft/libft.a -L  $(shell brew --prefix readline)/lib -lreadline -ggdb3 -o $(NAME)
 
 ft_libft :
 		@make -C libft
