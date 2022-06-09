@@ -6,7 +6,7 @@
 /*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 18:06:45 by aabdou            #+#    #+#             */
-/*   Updated: 2022/06/05 16:38:06 by aabdou           ###   ########.fr       */
+/*   Updated: 2022/06/09 12:24:30 by aabdou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char	**sort_2D_str(t_env *node, int len)
 			{
 				tmp = ft_strdup(tmp_2D[i]);
 				free(tmp_2D[i]);
-				tmp_2D[i] =ft_strdup(tmp_2D[j]);
+				tmp_2D[i] = ft_strdup(tmp_2D[j]);
 				free(tmp_2D[j]);
 				tmp_2D[j] = ft_strdup(tmp);
 				free(tmp);
@@ -60,7 +60,7 @@ char	**fill_2D(t_env *node, int len)
 	char	**tmp;
 	int		i;
 
-	tmp = malloc(sizeof(char *) * len + 1);
+	tmp = malloc(sizeof(char *) * (len + 1));
 	if (tmp == NULL)
 		return (perror("Error Malloc"), exit(EXIT_FAILURE), NULL);
 	i = 0;
@@ -90,9 +90,9 @@ char	**fill_block_in_2D(t_env *node, int i, char **tmp)
 		value = ft_strjoin("\"", node->value);
 		tmp_value = ft_strjoin(value, "\"");
 		free(value);
-		str = ft_strjoin(tmp_name,tmp_value);
-		free(tmp_name);
+		str = ft_strjoin(tmp_name, tmp_value);
 		free(tmp_value);
+		free(tmp_name);
 	}
 	else
 	{
@@ -132,3 +132,4 @@ int	ft_add_to_env(t_env *env, char *str, int i, int equal_pos)
 		free(value);
 	return (0);
 }
+//export "'" FIX

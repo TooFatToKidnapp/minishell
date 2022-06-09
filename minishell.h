@@ -6,7 +6,7 @@
 /*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 21:01:03 by aabdou            #+#    #+#             */
-/*   Updated: 2022/06/05 13:41:52 by aabdou           ###   ########.fr       */
+/*   Updated: 2022/06/08 19:56:44 by aabdou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,16 @@ void	print_env(t_env *env);
 t_env	*create_PATH_PWD(void);
 /////////////////////
 
+////////unset//////
+t_env	*unset(t_env *env, char **cmd, char **envp);
+int	check_if_valid(char *var);
+t_env	ft_delete_env(t_env *env, t_env *tmp, char *tmp_cmd, char **envp);
+void	update_envp(t_env *env, char **envp);
+char	**new_envp(t_env *env);
+void	remove_last_env(t_env *env, char *tmp_cmd);
+t_env	*remove_env(char *name, t_env *env, char **envp);
+///////////////////
+
 t_node	*create_and_fill(char *cmd, int index);
 t_node	*add_node_back(t_node *node);
 void	add_node(t_node **node, t_node *new);
@@ -123,7 +133,7 @@ t_node	**check_err(void);
 void	free_2D(char **str);
 void	free_env(t_env *env);
 
-
+void	exit_shell(char **str, int i);
 
 
 

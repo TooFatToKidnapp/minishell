@@ -6,7 +6,7 @@
 /*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 21:00:43 by aabdou            #+#    #+#             */
-/*   Updated: 2022/06/05 15:27:54 by aabdou           ###   ########.fr       */
+/*   Updated: 2022/06/09 12:13:33 by aabdou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,14 +74,18 @@ void	init_shell(t_env *env, char **envp)
 				print_env(env);
 			else if (ft_strcmp((*node)->arg[0] , "export") == 0)
 				export(env, (*node)->arg, envp);
+			else if (ft_strcmp((*node)->arg[0], "unset") == 0)
+				env = unset(env, (*node)->arg, envp);
+			else if (ft_strcmp((*node)->arg[0], "exit") == 0)
+				exit_shell((*node)->arg, 0);
 		}
-		if(!ft_strcmp(var.user_input, "exit"))
-		{
-			if (node != NULL)
-				free_list(node);
-			free(var.user_input);
-			exit(0);
-		}
+		// if(!ft_strcmp(var.user_input, "exit"))
+		// {
+		// 	if (node != NULL)
+		// 		free_list(node);
+		// 	free(var.user_input);
+		// 	exit(0);
+		// }
 		free(var.user_input);
 		if (node != NULL)
 			free_list(node);
@@ -101,6 +105,6 @@ int main(int ac, char **av, char **envp)
 	signal(SIGTSTP, SIG_IGN); // ctr + z
 	env = get_env(envp);
 	init_shell(env, envp);
-	free_env(env);
+	//free_env(env);
 	return (0);
 }

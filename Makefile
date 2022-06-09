@@ -6,7 +6,7 @@ SRC =	minishell.c\
 		pipes.c\
 		quotes.c\
 		directions.c\
-		util.c\
+		parsing_util.c\
 		free.c\
 		env.c\
 		cd.c\
@@ -14,6 +14,9 @@ SRC =	minishell.c\
 		export.c\
 		export_util.c\
 		export_util2.c\
+		unset.c\
+		unset_util.c\
+		exit.c\
 
 CC = gcc
 
@@ -31,7 +34,7 @@ all : ft_libft $(NAME)
 		$(CC) $(FLAGS) -I $(shell brew --prefix readline)/include -c $< -o $@
 
 $(NAME) : $(OBJ)
-	$(CC) $(FLAGS) $(OBJ) libft/libft.a -L  $(shell brew --prefix readline)/lib -lreadline -ggdb3 -o $(NAME)
+	$(CC) $(FLAGS) libft/libft.a $(OBJ) -L  $(shell brew --prefix readline)/lib -lreadline -ggdb3 -o $(NAME)
 
 ft_libft :
 		@make -C libft

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: skinnyleg <skinnyleg@student.42.fr>        +#+  +:+       +#+        */
+/*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 18:00:27 by aabdou            #+#    #+#             */
-/*   Updated: 2022/06/07 23:21:57 by skinnyleg        ###   ########.fr       */
+/*   Updated: 2022/06/09 12:30:36 by aabdou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	copy_to_envp(char **tmp_envp, char **envp)
 		i++;
 	}
 	envp[i] = NULL;
-	free_2D(tmp_envp);
+//	free_2D(tmp_envp);
 }
 
 char	**fill_tmp_envp(t_env *env)
@@ -34,7 +34,6 @@ char	**fill_tmp_envp(t_env *env)
 	char	*tmp_name;
 	char	**tmp_envp;
 	int		i;
-
 	i = 0;
 	tmp_envp = malloc(sizeof(char *) * list_len(env) + 1);
 	if (tmp_envp == NULL)
@@ -46,7 +45,7 @@ char	**fill_tmp_envp(t_env *env)
 			tmp_envp[i] = ft_strjoin(tmp_name, env->value);
 		else
 			tmp_envp[i] = ft_strdup(tmp_name);
-		free(tmp_name);
+		//free(tmp_name);
 		if (env->next)
 		{
 			i++;
@@ -55,7 +54,7 @@ char	**fill_tmp_envp(t_env *env)
 		else
 			break ;
 	}
-	tmp_envp[i + 1] = NULL;
+	tmp_envp[i+1] = NULL;
 	return (tmp_envp);
 }
 
@@ -78,13 +77,12 @@ void	sort_and_print_env(t_env *env)
 	char	**tmp_str;
 	int		i;
 	int		len;
-
 	len = list_len(env);
 	i = 0;
 	tmp_str = sort_2D_str(env, len);
 	while (i < len)
 	{
-		if (tmp_str[i][0] != '\0')
+		if (tmp_str[i][0])
 			printf("%s\n", tmp_str[i]);
 		i++;
 	}
@@ -95,8 +93,8 @@ void	sort_and_print_env(t_env *env)
 void	export(t_env *env, char **str, char **envp)
 {
 	int		i;
-	char	**tmp_envp;
-
+	//char	**tmp_envp;
+		(void)envp;
 	i = 0;
 	if (str[1] == NULL || str[1][0] == '#')
 		sort_and_print_env(env);
@@ -107,7 +105,7 @@ void	export(t_env *env, char **str, char **envp)
 			if (check_and_change(str[i], env))
 				return;
 		}
-		tmp_envp = fill_tmp_envp(env);
-		copy_to_envp(tmp_envp, envp);
+		// tmp_envp = fill_tmp_envp(env);
+		// copy_to_envp(tmp_envp, envp);
 	}
  }

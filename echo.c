@@ -6,7 +6,7 @@
 /*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 16:56:24 by aabdou            #+#    #+#             */
-/*   Updated: 2022/05/29 19:50:42 by aabdou           ###   ########.fr       */
+/*   Updated: 2022/06/08 12:10:04 by aabdou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,12 @@ void	echo(char **line)
 	i = flag;
 	while (line && line[i])
 	{
-		tmp = ft_strtrim(line[i], "\'\"");
+		if (line[i][0] == '\'')
+			tmp = ft_strtrim(line[i], "\'");
+		else if (line[i][0] == '\"')
+			tmp = ft_strtrim(line[i], "\"");
+		else
+			tmp = ft_strdup(line[i]);
 		if (i != flag)
 			printf(" ");
 		printf("%s", tmp);

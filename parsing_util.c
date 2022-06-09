@@ -6,7 +6,7 @@
 /*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 17:22:28 by aabdou            #+#    #+#             */
-/*   Updated: 2022/05/28 19:18:51 by aabdou           ###   ########.fr       */
+/*   Updated: 2022/06/05 20:21:52 by aabdou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,6 @@ char	**trim_str(char **tab)
 	str[i] = NULL;
 	return (str);
 }
-
-/////
 
 // split the command b4 '|' and store each element in a 2d array inside a node , return a pointer to that node
 t_node	*create_and_fill(char *cmd, int index)
@@ -85,7 +83,6 @@ void	add_node(t_node **node, t_node *new)
 		new->prev = last;
 	}
 }
-
 
 void	fill_node(char **str, t_node **node)
 {

@@ -6,7 +6,7 @@
 /*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 18:37:39 by aabdou            #+#    #+#             */
-/*   Updated: 2022/06/05 20:18:37 by aabdou           ###   ########.fr       */
+/*   Updated: 2022/06/09 12:28:49 by aabdou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ void	*update_env(t_env *env, char *name, char *value)
 			{
 				if (env->value)
 					free(env->value);
+				//return(env->value = ft_strdup(tr_val), NULL);
 				return (env->value = ft_strdup(tr_val), free(tr_val), NULL);
 			}
 		}
@@ -102,5 +103,6 @@ void	*update_env(t_env *env, char *name, char *value)
 	}
 	if (env && !env->next)
 		new_env(name, tr_val, env);
-	return(free(tr_val), NULL);
+	return(free(tr_val) , NULL);
+	//return NULL;
 }
