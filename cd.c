@@ -3,41 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 14:30:41 by aabdou            #+#    #+#             */
-/*   Updated: 2022/06/01 18:05:48 by aabdou           ###   ########.fr       */
+/*   Updated: 2022/06/09 20:01:25 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"minishell.h"
 
-void	create_or_change_env(t_env *env, char *name, char *value, int len)
+void	*create_or_change_env(t_env *env, char *name, char *value, int len)
 {
 	t_env	*node;
+
 	while (env != NULL && env->next != NULL)
 	{
-		if (ft_strcmp(env->name, name) == 0 && ft_strlcpy(env->value, value, len + 1))
-			break;
+		if (ft_strcmp(env->name, name) == 0
+			&& ft_strlcpy(env->value, value, len + 1))
+			break ;
 		env = env->next;
 	}
 	if (env != NULL && ft_strcmp(env->name, name) == 0)
-	{
-		ft_strlcpy(env->value, value, len +1);
-		return ;
-	}
+		return (ft_strlcpy(env->value, value, len + 1), NULL);
 	if (env == NULL || env->next == NULL)
 	{
 		node = (t_env *)malloc(sizeof(t_env));
 		if (node == NULL)
-			return (perror("Error malloc"), exit(EXIT_FAILURE));
+			return (perror("Error malloc"), exit(EXIT_FAILURE), NULL);
 		node->name = ft_strdup(name);
 		node->value = ft_strdup(value);
 		node->next = NULL;
 		if (env != NULL)
 			env->next = node;
 	}
-	return;
+	return (NULL);
 }
 
 char	*get_full_path(char *str, char *home)
@@ -48,8 +47,8 @@ char	*get_full_path(char *str, char *home)
 
 	i = 0;
 	j = 1;
-	if(home == NULL)
-		return NULL;
+	if (home == NULL)
+		return (NULL);
 	while (str[i] != '\0')
 		i++;
 	dir = malloc(sizeof(char ) * (ft_strlen(home) + i));
@@ -68,7 +67,7 @@ char	*get_full_path(char *str, char *home)
 
 char	*get_home(t_env *env)
 {
-	while(env != NULL)
+	while (env != NULL)
 	{
 		if (ft_strcmp(env->name, "HOME") == 0)
 			return (env->value);
@@ -77,8 +76,7 @@ char	*get_home(t_env *env)
 	return (NULL);
 }
 
-
-void 	change_dir(char **str, int *i, t_env *env)
+void	change_dir(char **str, int *i, t_env *env)
 {
 	char	*home;
 	char	*dir;
@@ -99,7 +97,10 @@ void 	change_dir(char **str, int *i, t_env *env)
 		if (home)
 			(*i) = chdir(home);
 		else
+		{
 			printf("Minishell : Error can't find HOME\n");
+			var.exit_code = 1;
+		}
 	}
 	free(path);
 }
@@ -112,7 +113,7 @@ void	cd(char **arg, t_env *env)
 
 	i = 0;
 	getcwd(current_dir, 1024);
-	change_dir(arg, &i , env);
+	change_dir(arg, &i, env);
 	if (i == -1)
 		printf("cd : %s no such file in directory\n", arg[1]);
 	else if (env->next == NULL || env->next->next == NULL)
@@ -120,6 +121,8 @@ void	cd(char **arg, t_env *env)
 		getcwd(new_dir, 1024);
 		create_or_change_env(env, "PWD", new_dir, ft_strlen(new_dir));
 		if (ft_strcmp(current_dir, new_dir))
-			create_or_change_env(env, "OLDPWD", current_dir, ft_strlen(current_dir));
+			create_or_change_env(env, "OLDPWD",
+				current_dir, ft_strlen(current_dir));
+		var.exit_code = 0;
 	}
 }

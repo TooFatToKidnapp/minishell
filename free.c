@@ -3,26 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 19:14:55 by aabdou            #+#    #+#             */
-/*   Updated: 2022/05/25 15:59:01 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/06/10 18:46:49 by aabdou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	free_2D(char **str)
+void	free_2d(char **str)
 {
 	int	i;
 
 	i = 0;
-	while (str[i])
+	while (str && str[i])
 	{
 		free(str[i]);
+		str[i] = NULL;
 		i++;
 	}
-	free(str);
+	if(str)
+		free(str);
 }
 
 void	free_list(t_node **node)
@@ -33,13 +35,13 @@ void	free_list(t_node **node)
 	if ((*node) == NULL)
 		return (free(node));
 	next = (*node)->next;
-	free_2D((*node)->arg);
+	free_2d((*node)->arg);
 	free((*node));
 	while (next)
 	{
 		tmp = next;
 		next = next->next;
-		free_2D(tmp->arg);
+		free_2d(tmp->arg);
 		free(tmp);
 	}
 	free(node);
@@ -50,18 +52,22 @@ void	free_env(t_env *env)
 	t_env	*next;
 	t_env	*tmp;
 
-	if (env == NULL)
-		return ;
-	next = env->next;
-	free(env->value);
-	free(env->name);
-	free(env);
+	next = NULL;
+	if (env)
+	{
+		next = env->next;
+		free(env->name);
+		free(env->value);
+		free(env);
+	}
 	while (next)
 	{
+		if (env == env->next)
+			env->next = NULL;
 		tmp = next;
 		next = next->next;
-		free(tmp->value);
 		free(tmp->name);
+		free(tmp->value);
 		free(tmp);
 	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 16:56:24 by aabdou            #+#    #+#             */
-/*   Updated: 2022/06/08 12:10:04 by aabdou           ###   ########.fr       */
+/*   Updated: 2022/06/09 19:48:14 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	ft_checkflag(char *str)
 	int	i;
 
 	i = 1;
-	if(str[1] == '\0')
+	if (str[1] == '\0')
 		return (1);
 	if (str[0] != '-')
 		return (1);
@@ -56,4 +56,5 @@ void	echo(char **line)
 	}
 	if (flag == 1)
 		printf("\n");
+	var.exit_code = 0;
 }

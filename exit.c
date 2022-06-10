@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 17:19:10 by aabdou            #+#    #+#             */
-/*   Updated: 2022/06/09 12:05:53 by aabdou           ###   ########.fr       */
+/*   Updated: 2022/06/09 19:37:37 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	exit_shell(char **str, int i)
 		if (!ft_isdigit(trim[i]) && trim[i] != '\'' && trim[i] != '"')
 		{
 			printf("exit: %s: numeric argument required\n", trim);
-			break;
+			break ;
 		}
 	}
 	exit(EXIT_SUCCESS);

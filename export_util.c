@@ -6,7 +6,7 @@
 /*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 18:06:45 by aabdou            #+#    #+#             */
-/*   Updated: 2022/06/09 12:24:30 by aabdou           ###   ########.fr       */
+/*   Updated: 2022/06/10 18:30:07 by aabdou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,37 +25,36 @@ int	list_len(t_env *node)
 	return (i);
 }
 
-char	**sort_2D_str(t_env *node, int len)
+char	**sort_2d_str(t_env *node, int len)
 {
 	int		i;
 	int		j;
 	char	*tmp;
-	char	**tmp_2D;
+	char	**tmp_2d;
 
-	tmp_2D = fill_2D(node, len);
+	tmp_2d = fill_2d(node, len);
 	i = -1;
 	j = 0;
-	while(++i < len)
+	while (++i < len)
 	{
 		j = i;
 		while (++j < len)
 		{
-			if (tmp_2D[j] && ft_strcmp(tmp_2D[i], tmp_2D[j]) > 0)
+			if (tmp_2d[j] && ft_strcmp(tmp_2d[i], tmp_2d[j]) > 0)
 			{
-				tmp = ft_strdup(tmp_2D[i]);
-				free(tmp_2D[i]);
-				tmp_2D[i] = ft_strdup(tmp_2D[j]);
-				free(tmp_2D[j]);
-				tmp_2D[j] = ft_strdup(tmp);
+				tmp = ft_strdup(tmp_2d[i]);
+				free(tmp_2d[i]);
+				tmp_2d[i] = ft_strdup(tmp_2d[j]);
+				free(tmp_2d[j]);
+				tmp_2d[j] = ft_strdup(tmp);
 				free(tmp);
 			}
 		}
 	}
-	tmp_2D[i] = NULL;
-	return (tmp_2D);
+	return (tmp_2d[i] = NULL, tmp_2d);
 }
 
-char	**fill_2D(t_env *node, int len)
+char	**fill_2d(t_env *node, int len)
 {
 	char	**tmp;
 	int		i;
@@ -66,18 +65,18 @@ char	**fill_2D(t_env *node, int len)
 	i = 0;
 	while (node != NULL)
 	{
-		tmp = fill_block_in_2D(node, i, tmp);
+		tmp = fill_block_in_2d(node, i, tmp);
 		i++;
 		if (node->next)
 			node = node->next;
 		else
-			break;
+			break ;
 	}
 	tmp[i + 1] = NULL;
 	return (tmp);
 }
 
-char	**fill_block_in_2D(t_env *node, int i, char **tmp)
+char	**fill_block_in_2d(t_env *node, int i, char **tmp)
 {
 	char	*tmp_name;
 	char	*tmp_value;
@@ -122,8 +121,8 @@ int	ft_add_to_env(t_env *env, char *str, int i, int equal_pos)
 	if (check_identifier(trimed_name))
 		return (free(trimed_name), free(value), 0);
 	i = 0;
-	while (value && str[++equal_pos])
-		value[i++] = str[equal_pos];
+	while (value && str[equal_pos])
+		value[i++] = str[++equal_pos];
 	if (i != 0)
 		value[i] = '\0';
 	update_env(env, trimed_name, value);
@@ -132,4 +131,3 @@ int	ft_add_to_env(t_env *env, char *str, int i, int equal_pos)
 		free(value);
 	return (0);
 }
-//export "'" FIX

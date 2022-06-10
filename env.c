@@ -6,7 +6,7 @@
 /*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 20:45:57 by aabdou            #+#    #+#             */
-/*   Updated: 2022/06/02 17:36:38 by aabdou           ###   ########.fr       */
+/*   Updated: 2022/06/10 17:21:14 by aabdou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	add_var(t_env **env, char *str)
 
 	var = (t_env *)malloc(sizeof(t_env));
 	if (var == NULL)
-		return(perror("Error malloc"), exit(EXIT_FAILURE));
+		return (perror("Error malloc"), exit(EXIT_FAILURE));
 	var->value = get_value(str);
 	var->name = get_name(str);
 	var->next = NULL;
@@ -78,28 +78,28 @@ t_env	*get_env(char **envp)
 		i++;
 	}
 	if (envp[0] == NULL)
-		env = create_PATH_PWD();
+		env = create_path_pwd();
 	return (env);
 }
 
-t_env	*create_PATH_PWD(void)
+t_env	*create_path_pwd(void)
 {
-		char	cwd[1024];
-		t_env	*env;
-		t_env	*env2;
+	char	cwd[1024];
+	t_env	*env;
+	t_env	*env2;
 
-		getcwd(cwd, 1024);
-		env = (t_env *)malloc(sizeof(t_env));
-		if (!env)
-			return (perror("Error malloc"), exit(EXIT_FAILURE), NULL);
-		env->name = ft_strdup("PWD");
-		env->value = ft_strdup(cwd);
-		env2 = (t_env *)malloc(sizeof(t_env));
-		if (!env2)
-			return (perror("Error malloc"), exit(EXIT_FAILURE), NULL);
-		env2->name = ft_strdup("PATH");
-		env2->value = _PATH_STDPATH;
-		env->next = env2;
-		env2->next = NULL;
-		return (env);
+	getcwd(cwd, 1024);
+	env = (t_env *)malloc(sizeof(t_env));
+	if (!env)
+		return (perror("Error malloc"), exit(EXIT_FAILURE), NULL);
+	env->name = ft_strdup("PWD");
+	env->value = ft_strdup(cwd);
+	env2 = (t_env *)malloc(sizeof(t_env));
+	if (!env2)
+		return (perror("Error malloc"), exit(EXIT_FAILURE), NULL);
+	env2->name = ft_strdup("PATH");
+	env2->value = _PATH_STDPATH;
+	env->next = env2;
+	env2->next = NULL;
+	return (env);
 }

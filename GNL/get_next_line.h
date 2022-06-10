@@ -1,32 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
+/*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/01 20:52:06 by aabdou            #+#    #+#             */
-/*   Updated: 2022/06/10 15:26:29 by aabdou           ###   ########.fr       */
+/*   Created: 2021/11/08 17:32:29 by hmoubal           #+#    #+#             */
+/*   Updated: 2022/06/10 14:17:51 by aabdou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"libft.h"
+#ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
+# include <stdlib.h>
+# include <unistd.h>
+# define BUFFER_SIZE 1
 
-size_t	ft_strlcpy(char *dst, const char *src, size_t ds)
-{
-	size_t	i;
-
-	i = 0;
-	if (ds != 0)
-	{
-		while (src[i] && i < (ds - 1))
-		{
-			dst[i] = src[i];
-			i++;
-		}
-		dst[i] = '\0';
-	}
-	while (src[i])
-		i++;
-	return (i);
-}
+char	*get_next_line(int fd);
+char	*ft_strdup2(const char *src);
+char	*ft_strjoin_gnl2(char const *s1,	char const *s2);
+void	*ft_memcpy2(void *dest,	const void *src,	size_t size);
+size_t	ft_strlen2(char const	*str);
+#endif

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   util.c                                             :+:      :+:    :+:   */
+/*   parsing_util.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 17:22:28 by aabdou            #+#    #+#             */
-/*   Updated: 2022/06/05 20:21:52 by aabdou           ###   ########.fr       */
+/*   Updated: 2022/06/09 19:33:57 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,23 +31,22 @@ char	**trim_str(char **tab)
 	return (str);
 }
 
-// split the command b4 '|' and store each element in a 2d array inside a node , return a pointer to that node
 t_node	*create_and_fill(char *cmd, int index)
 {
 	t_node	*new;
 	char	**str;
-	int 	i;
+	int		i;
 
 	new = (t_node *)malloc(sizeof(t_node));
 	if (new == NULL)
 		return (perror("Error node"), exit(EXIT_FAILURE), NULL);
 	str = ft_split(cmd, ' ');
 	i = 0;
-	while(str[i])
+	while (str[i])
 		i++;
 	new->arg = malloc(sizeof(char *) * i + 1);
 	if (new->arg == NULL)
-		return (perror("Error node"), free_2D(str), exit(EXIT_FAILURE), NULL);
+		return (perror("Error node"), free_2d(str), exit(EXIT_FAILURE), NULL);
 	i = 0;
 	while (str[i])
 	{
@@ -57,11 +56,11 @@ t_node	*create_and_fill(char *cmd, int index)
 	new->arg[i] = NULL;
 	new->next = NULL;
 	new->index = index;
-	free_2D(str);
+	free_2d(str);
 	return (new);
 }
 
-t_node	*add_node_back(t_node *node) // return the last node
+t_node	*add_node_back(t_node *node)
 {
 	if (node == NULL)
 		return (0);
@@ -74,9 +73,9 @@ void	add_node(t_node **node, t_node *new)
 {
 	t_node	*last;
 
-	if ((*node) == NULL) //if list is empty new becomes the first node
+	if ((*node) == NULL)
 		*node = new;
-	else	// else it becomse the last
+	else
 	{
 		last = add_node_back(*node);
 		last->next = new;
@@ -89,7 +88,7 @@ void	fill_node(char **str, t_node **node)
 	int	i;
 
 	i = 0;
-	while(str[i])
+	while (str[i])
 	{
 		add_node(node, create_and_fill(str[i], i));
 		i++;

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 15:21:18 by aabdou            #+#    #+#             */
-/*   Updated: 2022/06/06 17:12:15 by aabdou           ###   ########.fr       */
+/*   Updated: 2022/06/09 19:33:57 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_node	**parser(t_node **node)
+t_node	**parser(t_node **node, t_env *env)
 {
 	int		i;
 	char	*str;
@@ -27,12 +27,12 @@ t_node	**parser(t_node **node)
 	free(str);
 	if (var.user_input != NULL)
 	{
-		node = check_err();
+		node = check_err(env);
 	}
 	return (node);
 }
 
-t_node	**check_err(void)
+t_node	**check_err(t_env *env)
 {
 	t_node	**node;
 	int		i;
@@ -43,19 +43,18 @@ t_node	**check_err(void)
 	node = malloc(sizeof(t_node *));
 	if (node == NULL)
 	{
-		return(ft_putstr_fd("Error\n", 2), exit(EXIT_FAILURE), NULL);
+		return (ft_putstr_fd("Error\n", 2), exit(EXIT_FAILURE), NULL);
 	}
 	*node = NULL;
-	if(check_pipes() == 0 || check_quotes() == 0 || check_directions() == 0)
-		return(free_list(node) ,NULL);
+	if (check_pipes() == 0 || check_quotes() == 0 || check_directions() == 0)
+		return (free_list(node), NULL);
 	command = ft_split(var.user_input, '|');
 	str = trim_str(command);
-	free_2D(command);
+	free_2d(command);
 	if (check_red_pos(str) == 0)
-		return (free_2D(str), free_list(node), NULL);
-	fill_node(str,node);
-	free_2D(str);
-	return node;
+		return (free_2d(str), free_list(node), NULL);
+	check_dollar(str, env);
+	fill_node(str, node);
+	free_2d(str);
+	return (node);
 }
-
-// fix echo echo "'" && "''"

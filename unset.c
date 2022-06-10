@@ -6,7 +6,7 @@
 /*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 13:38:23 by aabdou            #+#    #+#             */
-/*   Updated: 2022/06/09 12:30:10 by aabdou           ###   ########.fr       */
+/*   Updated: 2022/06/10 17:07:05 by aabdou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,16 @@ void	update_envp(t_env *env, char **envp)
 	tmp_envp = new_envp(env);
 	while (tmp_envp[i])
 	{
-		len = ft_strlen(tmp_envp[i]) + 1;
-		ft_strlcpy(envp[i], tmp_envp[i], len);
+		len = (ft_strlen(tmp_envp[i]) + 1);
+		if(tmp_envp[i] != NULL)
+			envp[i] = ft_strdup(tmp_envp[i]);
+			//ft_strlcpy(envp[i], ft_strdup(tmp_envp[i]), len);
+		else
+			envp[i] = ft_strdup("");
+			//ft_strlcpy(envp[i], ft_strdup(""), len);
 		i++;
 	}
-	free_2D(tmp_envp);
+	free_2d(tmp_envp);
 	envp[i] = NULL;
 }
 
@@ -38,7 +43,7 @@ t_env	*delete_env(t_env *env, t_env *tmp, char *tmp_cmd, char **envp)
 		if (!ft_strcmp(env->name, tmp_cmd))
 		{
 			tmp = remove_env(env->name, tmp, envp);
-			break;
+			break ;
 		}
 		env = env->next;
 	}
@@ -50,21 +55,22 @@ t_env	*delete_env(t_env *env, t_env *tmp, char *tmp_cmd, char **envp)
 	return (tmp);
 }
 
-int	check_if_valid(char *var)
+int	check_if_valid(char *vars)
 {
 	int	i;
 
 	i = 0;
-	while (var[i])
+	while (vars[i])
 	{
-		if (!ft_isalpha(var[i]) && var[i] != '_')
+		if (!ft_isalpha(vars[i]) && vars[i] != '_')
 		{
-			printf("unset: `%s': not a valid identifier\n", var);
-			return 1;
+			printf("unset: `%s': not a valid identifier\n", vars);
+			var.exit_code = 1;
+			return (1);
 		}
 		i++;
 	}
-	return 0;
+	return (0);
 }
 
 t_env	*unset(t_env *env, char **cmd, char **envp)
@@ -72,7 +78,7 @@ t_env	*unset(t_env *env, char **cmd, char **envp)
 	int		i;
 	char	*tmp_cmd;
 	t_env	*tmp;
-	(void)envp;
+
 	i = 1;
 	tmp = env;
 	while (cmd[i])
@@ -81,7 +87,7 @@ t_env	*unset(t_env *env, char **cmd, char **envp)
 		if (check_if_valid(tmp_cmd))
 		{
 			free(tmp_cmd);
-			return(tmp);
+			return (tmp);
 		}
 		tmp = delete_env(env, tmp, tmp_cmd, envp);
 		free(tmp_cmd);
@@ -89,6 +95,14 @@ t_env	*unset(t_env *env, char **cmd, char **envp)
 		i++;
 	}
 	env = tmp;
-	// update_envp(env, envp);
-	return tmp;
+	// int j = 0;
+	// while(env)
+	// {
+	// 	printf("%d\n", j++);
+	// 	printf("env adress %p   %s=%s  %p\n", env ,env->name, env->value, tmp->next);
+	// 	env = env->next;
+	// }
+	update_envp(env, envp);
+	var.exit_code = 0;
+	return (tmp);
 }

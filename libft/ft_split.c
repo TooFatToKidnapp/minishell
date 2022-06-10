@@ -3,25 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 20:45:53 by aabdou            #+#    #+#             */
-/*   Updated: 2022/05/18 17:16:14 by aabdou           ###   ########.fr       */
+/*   Updated: 2022/06/09 19:08:03 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	get_count(char const *s, char c)
+int	get_count(char const *s, char c, int i, int word)
 {
-	int i = 0;
-	int word = 0;
-
 	while (s[i])
 	{
 		if (s[i] != c)
 		{
-			if(s[i] == '\"')
+			if (s[i] == '\"')
 			{
 				i++;
 				while (s[i] != '\"')
@@ -103,8 +100,7 @@ char	**ft_split(char const *s, char c)
 	i = 0;
 	if (!s)
 		return (NULL);
-	word = get_count
-(s, c);
+	word = get_count(s, c, 0, 0);
 	tab = (char **)malloc(sizeof(char *) * (word + 1));
 	if (!tab)
 	{

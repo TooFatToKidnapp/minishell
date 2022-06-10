@@ -3,28 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   directions.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 20:00:59 by aabdou            #+#    #+#             */
-/*   Updated: 2022/05/18 17:50:28 by aabdou           ###   ########.fr       */
+/*   Updated: 2022/06/09 19:52:27 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	check_directions(void) // needs free str
+int	check_directions(void)
 {
 	int		i;
 	char	*str;
 
 	i = 0;
 	str = ft_strdup(var.user_input);
-	if(check_syntax_right() == 0)
+	if (check_syntax_right() == 0)
 		return (free(str), 0);
 	return (free(str), 1);
 }
 
-int	check_syntax_right(void)   ///   checks for the following conditions " > > , > < , < < , < >" && ignores the redirections inside "" and ''
+int	check_syntax_right(void)
 {
 	int		i;
 	char	*str;
@@ -33,7 +33,7 @@ int	check_syntax_right(void)   ///   checks for the following conditions " > > ,
 	i = 0;
 	while (str[i] != '\0' && str[i] != '>' && str[i] != '\"' && str[i] != '\'')
 		i++;
-	i = skip_quote(str, i); // ignore whatever is inside quotes
+	i = skip_quote(str, i);
 	if (str[i] != '\0')
 	{
 		i++;
@@ -42,14 +42,15 @@ int	check_syntax_right(void)   ///   checks for the following conditions " > > ,
 		while (str[i] != '\0' && str[i] == ' ')
 			i++;
 		if (str[i] != '\0' && str[i] == '>')
-			return(printf("minishell: syntax error unexpected token `>'\n"), free(str), 0);
+			return (printf("minishell: syntax error unexpected token `>'\n"),
+				var.exit_code = 258, free(str), 0);
 		else if (str[i] != '\0' && str[i] == '<')
-			return (printf("minishell: syntax error unexpected token `<'\n"), free(str), 0);
+			return (printf("minishell: syntax error unexpected token `<'\n"),
+				var.exit_code = 258, free(str), 0);
 	}
 	if (check_syntax_left() == 0)
 		return (free(str), 0);
-	free(str);
-	return (1);
+	return (free(str), 1);
 }
 
 int	check_syntax_left(void)
@@ -70,12 +71,13 @@ int	check_syntax_left(void)
 		while (str[i] != '\0' && str[i] == ' ')
 			i++;
 		if (str[i] != '\0' && str[i] == '>' )
-			return(printf("minishell: syntax error unexpected token `>'\n"), free(str), 0);
+			return (printf("minishell: syntax error unexpected token `>'\n"),
+				var.exit_code = 258, free(str), 0);
 		else if (str[i] != '\0' && str[i] == '<')
-			return (printf("minishell: syntax error unexpected token `<'\n"), free(str), 0);
+			return (printf("minishell: syntax error unexpected token `<'\n"),
+				var.exit_code = 258, free(str), 0);
 	}
-	free(str);
-	return (1);
+	return (free(str), 1);
 }
 
 int	skip_quote(char *str, int i)
@@ -83,7 +85,7 @@ int	skip_quote(char *str, int i)
 	if (str[i] != '\0' && str[i] == '\'')
 	{
 		i++;
-		while(str[i] != '\'')
+		while (str[i] != '\'')
 			i++;
 	}
 	else if (str[i] != '\0' && str[i] == '\"')
@@ -97,18 +99,25 @@ int	skip_quote(char *str, int i)
 
 int	check_red_pos(char **str)
 {
-	int i;
+	int	i;
 
 	i = 0;
-
 	while (str[i])
 	{
-		if (str[i][ft_strlen(str[i]) -1] == '<' || str[i][ft_strlen(str[i]) -1] == '>')
+		if (str[i][ft_strlen(str[i]) - 1] == '<' ||
+			str[i][ft_strlen(str[i]) - 1] == '>')
 		{
 			if (str[i +1] != NULL)
+			{
 				printf("Minishell: syntax Error near unexpected token `|'\n");
+				var.exit_code = 258;
+			}
 			else
-				printf("Minishell: syntax Error near unexpected token `new line'\n");
+			{
+				var.exit_code = 258;
+				printf("Minishell: syntax Error near unexpected token"
+					"`new line'\n");
+			}
 			return (0);
 		}
 		i++;

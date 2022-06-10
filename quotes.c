@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 18:14:48 by aabdou            #+#    #+#             */
-/*   Updated: 2022/05/17 21:41:23 by aabdou           ###   ########.fr       */
+/*   Updated: 2022/06/09 19:12:52 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,7 @@ int	check_quotes(void)
 		i++;
 	}
 	if (s_q == 1 || d_q == 1)
-		return (printf("Minishell: syntax error\n"), free(str), 0);
-	free (str);
-	return (1);
+		return (printf("Minishell: syntax error\n"),
+			var.exit_code = 258, free(str), 0);
+	return (free (str), 1);
 }
-

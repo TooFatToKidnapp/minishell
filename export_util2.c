@@ -6,7 +6,7 @@
 /*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 18:37:39 by aabdou            #+#    #+#             */
-/*   Updated: 2022/06/09 12:28:49 by aabdou           ###   ########.fr       */
+/*   Updated: 2022/06/10 17:39:09 by aabdou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	get_equal_pos(char *str)
 	while (str[i] != '\0')
 	{
 		if (str[i] == '=')
-			break;
+			break ;
 		i++;
 	}
 	return (i);
@@ -43,13 +43,13 @@ void	allocate(char **name, char **value, char *str, int pos)
 
 int	check_identifier(char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (ft_isdigit(str[0]))
 	{
-			printf("export: `%s': not a valid identifier\n", str);
-			return (1);
+		printf("export: `%s': not a valid identifier\n", str);
+		return (1);
 	}
 	while (str[i])
 	{
@@ -86,23 +86,21 @@ void	*update_env(t_env *env, char *name, char *value)
 		if (!ft_strcmp(name, env->name))
 		{
 			if ((!tr_val && ((env->value && env->value[0] == '\0')
-				|| !env->value)) || (env->value && !tr_val))
+						|| !env->value)) || (env->value && !tr_val))
 				return (NULL);
 			else if (tr_val)
 			{
 				if (env->value)
 					free(env->value);
-				//return(env->value = ft_strdup(tr_val), NULL);
 				return (env->value = ft_strdup(tr_val), free(tr_val), NULL);
 			}
 		}
 		if (env->next)
 			env = env->next;
 		else
-			break;
+			break ;
 	}
 	if (env && !env->next)
 		new_env(name, tr_val, env);
-	return(free(tr_val) , NULL);
-	//return NULL;
+	return (free(tr_val), NULL);
 }

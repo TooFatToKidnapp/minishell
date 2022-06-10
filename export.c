@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 18:00:27 by aabdou            #+#    #+#             */
-/*   Updated: 2022/06/09 12:30:36 by aabdou           ###   ########.fr       */
+/*   Updated: 2022/06/09 19:43:28 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,14 @@ void	copy_to_envp(char **tmp_envp, char **envp)
 		i++;
 	}
 	envp[i] = NULL;
-//	free_2D(tmp_envp);
+	free_2d(tmp_envp);
 }
 
-char	**fill_tmp_envp(t_env *env)
+char	**fill_tmp_envp(t_env *env, int i)
 {
 	char	*tmp_name;
 	char	**tmp_envp;
-	int		i;
-	i = 0;
+
 	tmp_envp = malloc(sizeof(char *) * list_len(env) + 1);
 	if (tmp_envp == NULL)
 		exit(EXIT_FAILURE);
@@ -45,7 +44,7 @@ char	**fill_tmp_envp(t_env *env)
 			tmp_envp[i] = ft_strjoin(tmp_name, env->value);
 		else
 			tmp_envp[i] = ft_strdup(tmp_name);
-		//free(tmp_name);
+		free(tmp_name);
 		if (env->next)
 		{
 			i++;
@@ -54,17 +53,18 @@ char	**fill_tmp_envp(t_env *env)
 		else
 			break ;
 	}
-	tmp_envp[i+1] = NULL;
+	tmp_envp[i + 1] = NULL;
 	return (tmp_envp);
 }
 
-int check_and_change(char *str, t_env *env)
+int	check_and_change(char *str, t_env *env)
 {
 	if (str[0] == '=' || ft_strcmp(str, "\"\"") == 0 || ft_strcmp(str, "\'\'") == 0)
 	{
 		if (ft_strcmp(str, "\"\"") == 0 || ft_strcmp(str, "\'\'") == 0)
 			str = ft_strdup("");
 		printf("export: `%s': not a valid identifier\n", str);
+		var.exit_code = 1;
 		return (1);
 	}
 	else
@@ -77,9 +77,10 @@ void	sort_and_print_env(t_env *env)
 	char	**tmp_str;
 	int		i;
 	int		len;
+
 	len = list_len(env);
 	i = 0;
-	tmp_str = sort_2D_str(env, len);
+	tmp_str = sort_2d_str(env, len);
 	while (i < len)
 	{
 		if (tmp_str[i][0])
@@ -87,14 +88,14 @@ void	sort_and_print_env(t_env *env)
 		i++;
 	}
 	if (tmp_str != NULL)
-		free_2D(tmp_str);
+		free_2d(tmp_str);
 }
 
 void	export(t_env *env, char **str, char **envp)
 {
 	int		i;
-	//char	**tmp_envp;
-		(void)envp;
+	char	**tmp_envp;
+
 	i = 0;
 	if (str[1] == NULL || str[1][0] == '#')
 		sort_and_print_env(env);
@@ -103,9 +104,10 @@ void	export(t_env *env, char **str, char **envp)
 		while (str[++i])
 		{
 			if (check_and_change(str[i], env))
-				return;
+				return ;
 		}
-		// tmp_envp = fill_tmp_envp(env);
-		// copy_to_envp(tmp_envp, envp);
+		tmp_envp = fill_tmp_envp(env, 0);
+		copy_to_envp(tmp_envp, envp);
 	}
- }
+	var.exit_code = 0;
+}
