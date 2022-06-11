@@ -6,7 +6,7 @@
 /*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 19:14:55 by aabdou            #+#    #+#             */
-/*   Updated: 2022/06/10 18:46:49 by aabdou           ###   ########.fr       */
+/*   Updated: 2022/06/11 13:49:10 by aabdou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,12 @@ void	free_2d(char **str)
 	int	i;
 
 	i = 0;
-	while (str && str[i])
+	while (str[i])
 	{
-		free(str[i]);
-		str[i] = NULL;
+		free(str[i]);;
 		i++;
 	}
-	if(str)
-		free(str);
+	free(str);
 }
 
 void	free_list(t_node **node)
@@ -62,8 +60,8 @@ void	free_env(t_env *env)
 	}
 	while (next)
 	{
-		if (env == env->next)
-			env->next = NULL;
+		// if (env == env->next)
+		// 	env->next = NULL;
 		tmp = next;
 		next = next->next;
 		free(tmp->name);

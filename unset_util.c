@@ -6,7 +6,7 @@
 /*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 14:54:42 by aabdou            #+#    #+#             */
-/*   Updated: 2022/06/10 17:10:05 by aabdou           ###   ########.fr       */
+/*   Updated: 2022/06/11 13:59:14 by aabdou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,9 @@ char	**new_envp(t_env *env)
 	char	*tmp_name;
 	int		i;
 	int		len;
-
+	char	*str;
+		///leaks in join and strdup here
+	str = ft_strdup("");
 	len = list_len(env);
 	i = 0;
 	temp_envp = malloc(sizeof(char *) * len + 1);
@@ -27,10 +29,10 @@ char	**new_envp(t_env *env)
 	while (env)
 	{
 		tmp_name = ft_strjoin(env->name, "=");
-		if (temp_envp[i] != NULL && tmp_name && env->value)
+		if (temp_envp[i] != NULL && env->value)
 			temp_envp[i] = ft_strjoin(tmp_name, env->value);
 		else
-			temp_envp[i] = ft_strjoin(tmp_name, ft_strdup(""));
+			temp_envp[i] = ft_strjoin(tmp_name, str);
 		if (tmp_name)
 			free(tmp_name);
 		if (env->next)
@@ -38,9 +40,10 @@ char	**new_envp(t_env *env)
 			i++;
 			env = env->next;
 		}
-		else if (--len == 0 )
+		else //if (--len == 0 )
 			break ;
 	}
+	free(str);
 	temp_envp[i + 1] = NULL;
 	return (temp_envp);
 }

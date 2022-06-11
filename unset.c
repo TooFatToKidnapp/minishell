@@ -6,7 +6,7 @@
 /*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 13:38:23 by aabdou            #+#    #+#             */
-/*   Updated: 2022/06/10 17:07:05 by aabdou           ###   ########.fr       */
+/*   Updated: 2022/06/11 14:28:17 by aabdou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,21 +17,28 @@ void	update_envp(t_env *env, char **envp)
 	char	**tmp_envp;
 	int		i;
 	int		len;
+	char	*str = strdup("");
+	char	*t_envp;
 
 	len = 0;
 	i = 0;
 	tmp_envp = new_envp(env);
 	while (tmp_envp[i])
 	{
-		len = (ft_strlen(tmp_envp[i]) + 1);
-		if(tmp_envp[i] != NULL)
-			envp[i] = ft_strdup(tmp_envp[i]);
-			//ft_strlcpy(envp[i], ft_strdup(tmp_envp[i]), len);
-		else
-			envp[i] = ft_strdup("");
-			//ft_strlcpy(envp[i], ft_strdup(""), len);
+		len = (strlen(tmp_envp[i]) + 1);
+		if(tmp_envp[i] != NULL && envp[i])
+		{
+			t_envp = strdup(tmp_envp[i]);
+			strlcpy(envp[i], t_envp, len);
+			free(t_envp);
+			//envp[i] = ft_strdup(tmp_envp[i]);
+		}
+		else if (envp[i] != NULL)
+			ft_strlcpy(envp[i], str, len);
+			//envp[i] = ft_strdup("");
 		i++;
 	}
+	free(str);
 	free_2d(tmp_envp);
 	envp[i] = NULL;
 }
@@ -43,7 +50,7 @@ t_env	*delete_env(t_env *env, t_env *tmp, char *tmp_cmd, char **envp)
 		if (!ft_strcmp(env->name, tmp_cmd))
 		{
 			tmp = remove_env(env->name, tmp, envp);
-			break ;
+			break;
 		}
 		env = env->next;
 	}

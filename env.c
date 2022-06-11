@@ -6,7 +6,7 @@
 /*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 20:45:57 by aabdou            #+#    #+#             */
-/*   Updated: 2022/06/10 17:21:14 by aabdou           ###   ########.fr       */
+/*   Updated: 2022/06/10 20:05:32 by aabdou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,5 +101,12 @@ t_env	*create_path_pwd(void)
 	env2->value = _PATH_STDPATH;
 	env->next = env2;
 	env2->next = NULL;
+	// int j= 0;
+	// 	while(env)
+	// {
+	// 	printf("%d\n", j++);
+	// 	printf("env adress %p   %s=%s  %p\n", env ,env->name, env->value, env->next);
+	// 	env = env->next;
+	// }
 	return (env);
 }
