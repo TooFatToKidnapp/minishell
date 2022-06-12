@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
+/*   By: skinnyleg <skinnyleg@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 19:14:55 by aabdou            #+#    #+#             */
-/*   Updated: 2022/06/12 19:33:44 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/06/12 21:43:45 by skinnyleg        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,9 @@ void	free_list(t_node **node)
 
 void	free_env(t_env **env)
 {
-	t_env	*head;
 	t_env	*tmp1;
 	t_env	*tmp2;
 
-	head = *env;
-	tmp1 = NULL;
-	tmp2 = NULL;
 	tmp2 = (*env)->next;
 	tmp1 = (*env)->prev;
 	free((*env)->name);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
+/*   By: skinnyleg <skinnyleg@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 13:38:23 by aabdou            #+#    #+#             */
-/*   Updated: 2022/06/12 19:31:29 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/06/12 21:44:39 by skinnyleg        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	update_envp(t_env *env, char **envp)
 		if(tmp_envp[i] != NULL && envp[i])
 		{
 			t_envp = strdup(tmp_envp[i]);
-			strlcpy(envp[i], t_envp, len);
+			ft_strlcpy(envp[i], t_envp, len);
 			free(t_envp);
 			//envp[i] = ft_strdup(tmp_envp[i]);
 		}
@@ -78,10 +78,8 @@ void	unset(t_env **env, char **cmd, char **envp)
 {
 	int		i;
 	char	*tmp_cmd;
-	t_env	*tmp;
 
 	i = 1;
-	tmp = *env;
 	while (cmd[i])
 	{
 		tmp_cmd = ft_strtrim(cmd[i], "\"\'");
@@ -91,18 +89,9 @@ void	unset(t_env **env, char **cmd, char **envp)
 			return ;
 		}
 		remove_env(cmd[i], env, envp);
-		// delete_env(env, tmp_cmd, envp);
 		free(tmp_cmd);
 		i++;
 	}
-	// int j = 0;
-	// while(env)
-	// {
-	// 	printf("%d\n", j++);
-	// 	printf("env adress %p   %s=%s  %p\n", env ,env->name, env->value, tmp->next);
-	// 	env = env->next;
-	// }
-	// update_envp(*env, envp);
 	var.exit_code = 0;
 	return ;
 }
