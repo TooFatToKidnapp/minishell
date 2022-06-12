@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_util.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
+/*   By: skinnyleg <skinnyleg@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 18:06:45 by aabdou            #+#    #+#             */
-/*   Updated: 2022/06/12 19:07:53 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/06/12 22:15:19 by skinnyleg        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,5 +129,10 @@ int	ft_add_to_env(t_env **env, char *str, int i, int equal_pos)
 	free(trimed_name);
 	if (value)
 		free(value);
+	if (*env != NULL)
+	{
+		while((*env)->prev != NULL)
+			*env = (*env)->prev;
+	}
 	return (0);
 }
