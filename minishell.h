@@ -6,7 +6,7 @@
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 21:01:03 by aabdou            #+#    #+#             */
-/*   Updated: 2022/06/09 20:00:30 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/06/12 19:20:12 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ typedef struct s_env
 	char			*name;
 	char			*value;
 	struct s_env	*next;
+	struct s_env	*prev;
 }					t_env;
 
 char	*get_prompt(void);
@@ -64,7 +65,7 @@ int		skip_quote(char *str, int i);
 char	**trim_str(char **tab);
 int		check_red_pos(char **str);
 void	free_list(t_node **node);
-t_env	*get_env(char **envp);
+t_env	*get_env(char **envp, int flag);
 char	*get_name(char *str);
 char	*get_value(char *str);
 void	add_var(t_env **env, char *str);
@@ -76,30 +77,30 @@ void	*create_or_change_env(t_env *env, char *name, char *value, int len);
 void	pwd(void);
 void	echo(char **str);
 int		ft_checkflag(char *str);
-void	export(t_env *env, char **str, char **envp);
+void	export(t_env **env, char **str, char **envp);
 void	sort_and_print_env(t_env *env);
 char	**sort_2d_str(t_env *node, int len);
 char	**fill_2d(t_env *node, int len);
 char	**fill_block_in_2d(t_env *node, int i, char **tmp);
 int		list_len(t_env *node);
-int		ft_add_to_env(t_env *env, char *str, int i, int equal_pos);
-void	*update_env(t_env *env, char *name, char *value);
-void	new_env(char *name, char *value, t_env *env);
+int		ft_add_to_env(t_env **env, char *str, int i, int equal_pos);
+void	*update_env(t_env **env, char *name, char *value);
+void	new_env(char *name, char *value, t_env **env);
 int		check_identifier(char *str);
 void	allocate(char **name, char **value, char *str, int pos);
 int		get_equal_pos(char *str);
-int		check_and_change(char *str, t_env *env);
+int		check_and_change(char *str, t_env **env);
 char	**fill_tmp_envp(t_env *env, int i);
 void	copy_to_envp(char **tmp_envp, char **envp);
 void	print_env(t_env *env);
 t_env	*create_path_pwd(void);
-t_env	*unset(t_env *env, char **cmd, char **envp);
+void	unset(t_env **env, char **cmd, char **envp);
 int		check_if_valid(char *var);
 t_env	ft_delete_env(t_env *env, t_env *tmp, char *tmp_cmd, char **envp);
 void	update_envp(t_env *env, char **envp);
 char	**new_envp(t_env *env);
-void	remove_last_env(t_env *env, char *tmp_cmd);
-t_env	*remove_env(char *name, t_env *env, char **envp);
+t_env	*remove_last_env(t_env **env, char *tmp_cmd);
+void	remove_env(char *name, t_env **env, char **envp);
 t_node	*create_and_fill(char *cmd, int index);
 t_node	*add_node_back(t_node *node);
 void	add_node(t_node **node, t_node *new);
@@ -107,7 +108,7 @@ void	fill_node(char **str, t_node **node);
 t_node	**parser(t_node **node, t_env *env);
 t_node	**check_err(t_env *env);
 void	free_2d(char **str);
-void	free_env(t_env *env);
+void	free_env(t_env **env);
 void	pipex(t_node *node, t_env *env);
 void	exit_shell(char **str, int i);
 void	check_dollar(char **str, t_env *env);

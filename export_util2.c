@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_util2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 18:37:39 by aabdou            #+#    #+#             */
-/*   Updated: 2022/06/10 17:39:09 by aabdou           ###   ########.fr       */
+/*   Updated: 2022/06/12 19:36:59 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	check_identifier(char *str)
 	return (0);
 }
 
-void	new_env(char *name, char *value, t_env *env)
+void	new_env(char *name, char *value, t_env **env)
 {
 	t_env	*new;
 
@@ -73,34 +73,42 @@ void	new_env(char *name, char *value, t_env *env)
 	else
 		new->value = NULL;
 	new->next = NULL;
-	env->next = new;
+	if (*env != NULL)
+	{
+		(*env)->next = new;
+		new->prev = (*env);
+	}
+	else if (*env == NULL)
+	{
+		*env = new;
+		new->prev = NULL;
+	}
 }
 
-void	*update_env(t_env *env, char *name, char *value)
+void	*update_env(t_env **env, char *name, char *value)
 {
 	char	*tr_val;
 
 	tr_val = ft_strtrim(value, "\"\'");
-	while (env)
+	while (*env)
 	{
-		if (!ft_strcmp(name, env->name))
+		if (!ft_strcmp(name, (*env)->name))
 		{
-			if ((!tr_val && ((env->value && env->value[0] == '\0')
-						|| !env->value)) || (env->value && !tr_val))
+			if ((!tr_val && (((*env)->value && (*env)->value[0] == '\0')
+						|| !(*env)->value)) || ((*env)->value && !tr_val))
 				return (NULL);
 			else if (tr_val)
 			{
-				if (env->value)
-					free(env->value);
-				return (env->value = ft_strdup(tr_val), free(tr_val), NULL);
+				if ((*env)->value)
+					free((*env)->value);
+				return ((*env)->value = ft_strdup(tr_val), free(tr_val), NULL);
 			}
 		}
-		if (env->next)
-			env = env->next;
+		if ((*env)->next)
+			(*env) = (*env)->next;
 		else
 			break ;
 	}
-	if (env && !env->next)
-		new_env(name, tr_val, env);
+	new_env(name, tr_val, env);
 	return (free(tr_val), NULL);
 }

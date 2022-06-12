@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_util.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 18:06:45 by aabdou            #+#    #+#             */
-/*   Updated: 2022/06/10 18:30:07 by aabdou           ###   ########.fr       */
+/*   Updated: 2022/06/12 19:07:53 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ char	**fill_block_in_2d(t_env *node, int i, char **tmp)
 	return (tmp);
 }
 
-int	ft_add_to_env(t_env *env, char *str, int i, int equal_pos)
+int	ft_add_to_env(t_env **env, char *str, int i, int equal_pos)
 {
 	char	*name;
 	char	*trimed_name;

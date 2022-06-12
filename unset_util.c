@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset_util.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 14:54:42 by aabdou            #+#    #+#             */
-/*   Updated: 2022/06/11 13:59:14 by aabdou           ###   ########.fr       */
+/*   Updated: 2022/06/12 19:32:43 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,41 +48,55 @@ char	**new_envp(t_env *env)
 	return (temp_envp);
 }
 
-void	remove_last_env(t_env *env, char *tmp_cmd)
+t_env	*remove_last_env(t_env **env, char *tmp_cmd)
 {
-	while (env)
-	{
-		if (env->next && !ft_strcmp(env->next->name, tmp_cmd))
-		{
-			free(env->next->name);
-			free(env->next->value);
-			free(env->next);
-			env->next = NULL;
-			break ;
-		}
-		if (env->next)
-			env = env->next;
-		else
-			break ;
-	}
+	// while (env)
+	// {
+	// 	if (env->next && !ft_strcmp(env->next->name, tmp_cmd))
+	// 	{
+		(void)tmp_cmd;
+			t_env	*tmp;
+
+			tmp = *env;
+			if (*env != NULL)
+				*env = (*env)->prev;
+			if (*env != NULL)
+				(*env)->next = NULL;
+			free(tmp->name);
+			free(tmp->value);
+			free(tmp);
+			tmp = NULL;
+			return (tmp);
+			// break ;
+		// }
+		// if (env->next)
+		// 	env = env->next;
+		// else
+		// 	break ;
 }
 
-t_env	*remove_env(char *name, t_env *env, char **envp)
+void	remove_env(char *name, t_env **env, char **envp)
 {
 	t_env	*tmp;
+	// t_env	*tmp1;
 
-	tmp = env;
-	if (!ft_strcmp(env->name, name))
-	{
-		free_env(env);
-		tmp = get_env(envp + 1);
-		return (tmp);
-	}
-	while (ft_strcmp(env->next->name, name))
-		env = env->next;
-	free(env->next->name);
-	free(env->next->value);
-	free(env->next);
-	env->next = env->next->next;
-	return (tmp);
+	tmp = *env;
+	(void)envp;
+	// if (!ft_strcmp((*env)->name, name))
+	// {
+	// 	free_env(env, name);
+	// 	(void)envp;
+	// 	// tmp = *env;
+	// 	// tmp = get_env(envp, 1);
+	// 	return ;
+	// }
+	while (ft_strcmp((*env)->name, name))
+		*env = (*env)->next;
+	free_env(env);
+	// tmp1 = (*env)->next->next;
+	// free((*env)->next->name);
+	// free((*env)->next->value);
+	// free((*env)->next);
+	// (*env)->next = tmp1;
+	return ;
 }

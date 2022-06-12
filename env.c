@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 20:45:57 by aabdou            #+#    #+#             */
-/*   Updated: 2022/06/10 20:05:32 by aabdou           ###   ########.fr       */
+/*   Updated: 2022/06/12 18:27:53 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ void	add_var(t_env **env, char *str)
 	var->value = get_value(str);
 	var->name = get_name(str);
 	var->next = NULL;
+	var->prev = NULL;
 	if ((*env) == NULL)
 	{
 		*env = var;
@@ -62,10 +63,11 @@ void	add_var(t_env **env, char *str)
 	while (head->next)
 		head = head->next;
 	head->next = var;
+	var->prev = head;
 	return ;
 }
 
-t_env	*get_env(char **envp)
+t_env	*get_env(char **envp, int flag)
 {
 	t_env	*env;
 	int		i;
@@ -77,7 +79,7 @@ t_env	*get_env(char **envp)
 		add_var(&env, envp[i]);
 		i++;
 	}
-	if (envp[0] == NULL)
+	if (flag != 1 && envp[0] == NULL)
 		env = create_path_pwd();
 	return (env);
 }
@@ -98,15 +100,10 @@ t_env	*create_path_pwd(void)
 	if (!env2)
 		return (perror("Error malloc"), exit(EXIT_FAILURE), NULL);
 	env2->name = ft_strdup("PATH");
-	env2->value = _PATH_STDPATH;
+	env2->value = ft_strdup(_PATH_STDPATH);
 	env->next = env2;
 	env2->next = NULL;
-	// int j= 0;
-	// 	while(env)
-	// {
-	// 	printf("%d\n", j++);
-	// 	printf("env adress %p   %s=%s  %p\n", env ,env->name, env->value, env->next);
-	// 	env = env->next;
-	// }
+	env->prev = NULL;
+	env2->prev = env;
 	return (env);
 }

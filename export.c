@@ -6,7 +6,7 @@
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 18:00:27 by aabdou            #+#    #+#             */
-/*   Updated: 2022/06/09 19:43:28 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/06/12 19:08:27 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ char	**fill_tmp_envp(t_env *env, int i)
 	return (tmp_envp);
 }
 
-int	check_and_change(char *str, t_env *env)
+int	check_and_change(char *str, t_env **env)
 {
 	if (str[0] == '=' || ft_strcmp(str, "\"\"") == 0 || ft_strcmp(str, "\'\'") == 0)
 	{
@@ -91,14 +91,14 @@ void	sort_and_print_env(t_env *env)
 		free_2d(tmp_str);
 }
 
-void	export(t_env *env, char **str, char **envp)
+void	export(t_env **env, char **str, char **envp)
 {
 	int		i;
-	char	**tmp_envp;
+	// char	**tmp_envp;
 
 	i = 0;
 	if (str[1] == NULL || str[1][0] == '#')
-		sort_and_print_env(env);
+		sort_and_print_env(*env);
 	else
 	{
 		while (str[++i])
@@ -106,8 +106,9 @@ void	export(t_env *env, char **str, char **envp)
 			if (check_and_change(str[i], env))
 				return ;
 		}
-		tmp_envp = fill_tmp_envp(env, 0);
-		copy_to_envp(tmp_envp, envp);
+		(void)envp;
+		// tmp_envp = fill_tmp_envp(env, 0);
+		// copy_to_envp(tmp_envp, envp);
 	}
 	var.exit_code = 0;
 }

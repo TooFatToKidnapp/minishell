@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 21:00:43 by aabdou            #+#    #+#             */
-/*   Updated: 2022/06/10 21:35:13 by aabdou           ###   ########.fr       */
+/*   Updated: 2022/06/12 19:08:45 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,25 +61,25 @@ char	*get_prompt(void)
 	return (s3);
 }
 
-void	ft_continue(t_node **node, t_env *env, char **envp)
+void	ft_continue(t_node **node, t_env **env, char **envp)
 {
 	if (ft_strcmp((*node)->arg[0], "cd") == 0
 		|| ft_strcmp((*node)->arg[0], "/usr/bin/cd") == 0)
-		cd((*node)->arg, env);
+		cd((*node)->arg, *env);
 	else if (ft_strcmp((*node)->arg[0], "pwd") == 0)
 		pwd();
 	else if (ft_strcmp((*node)->arg[0], "echo") == 0)
 		echo((*node)->arg);
 	else if (ft_strcmp((*node)->arg[0], "env") == 0)
-		print_env(env);
+		print_env(*env);
 	else if (ft_strcmp((*node)->arg[0], "export") == 0)
 		export(env, (*node)->arg, envp);
 	else if (ft_strcmp((*node)->arg[0], "unset") == 0)
-		env = unset(env, (*node)->arg, envp);
+		unset(env, (*node)->arg, envp);
 	else if (ft_strcmp((*node)->arg[0], "exit") == 0)
 		exit_shell((*node)->arg, 0);
 	else
-		pipex(*node, env);
+		pipex(*node, *env);
 }
 
 void	init_shell(t_env *env, char **envp)
@@ -101,7 +101,7 @@ void	init_shell(t_env *env, char **envp)
 			add_history(var.user_input);
 		node = parser(node, env);
 		if (node != NULL)
-			ft_continue(node, env, envp);
+			ft_continue(node, &env, envp);
 		free(var.user_input);
 		if (node != NULL)
 			free_list(node);
@@ -120,8 +120,8 @@ int	main(int ac, char **av, char **envp)
 	signal(SIGINT, sigint);
 	signal(SIGQUIT, sigint);
 	signal(SIGTSTP, SIG_IGN);
-	env = get_env(envp);
+	env = get_env(envp , 0);
 	init_shell(env, envp);
-	free_env(env);
+	// free_env(env);
 	return (0);
 }

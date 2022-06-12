@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 19:14:55 by aabdou            #+#    #+#             */
-/*   Updated: 2022/06/11 13:49:10 by aabdou           ###   ########.fr       */
+/*   Updated: 2022/06/12 19:33:44 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,27 +45,40 @@ void	free_list(t_node **node)
 	free(node);
 }
 
-void	free_env(t_env *env)
+void	free_env(t_env **env)
 {
-	t_env	*next;
-	t_env	*tmp;
+	t_env	*head;
+	t_env	*tmp1;
+	t_env	*tmp2;
 
-	next = NULL;
-	if (env)
+	head = *env;
+	tmp1 = NULL;
+	tmp2 = NULL;
+	tmp2 = (*env)->next;
+	tmp1 = (*env)->prev;
+	free((*env)->name);
+	free((*env)->value);
+	free((*env));
+	*env = NULL;
+	if (tmp1 == NULL && tmp2)
 	{
-		next = env->next;
-		free(env->name);
-		free(env->value);
-		free(env);
+		(*env) = tmp2;
+		(*env)->prev = NULL;
 	}
-	while (next)
+	else if (!tmp2 && tmp1)
 	{
-		// if (env == env->next)
-		// 	env->next = NULL;
-		tmp = next;
-		next = next->next;
-		free(tmp->name);
-		free(tmp->value);
-		free(tmp);
+		tmp1->next = NULL;
+		(*env) = tmp1;
+	}
+	if (tmp1 && tmp2)
+	{
+		tmp1->next = tmp2;
+		tmp2->prev = tmp1;
+		(*env) = tmp1;
+	}
+	if (*env != NULL)
+	{
+		while((*env)->prev != NULL)
+			*env = (*env)->prev;
 	}
 }
