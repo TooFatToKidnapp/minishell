@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/18 17:49:59 by aabdou            #+#    #+#             */
-/*   Updated: 2022/06/11 19:10:24 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/06/13 17:41:03 by aabdou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,4 +41,18 @@ void	print_env(t_env *env)
 			break ;
 	}
 	var.exit_code = 0;
+}
+
+void	check_and_change2(t_env **env, char *name, char *value)
+{
+	while (env != NULL && (*env)->next != NULL)
+	{
+		if (ft_strcmp((*env)->name, name) == 0)
+		{
+			free((*env)->value);
+			(*env)->value = ft_strdup(value);
+			break;
+		}
+		*env = (*env)->next;
+	}
 }

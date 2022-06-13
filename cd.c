@@ -3,28 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 14:30:41 by aabdou            #+#    #+#             */
-/*   Updated: 2022/06/09 20:01:25 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/06/13 17:54:49 by aabdou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"minishell.h"
 
-void	*create_or_change_env(t_env *env, char *name, char *value, int len)
+void	*create_or_change_env(t_env *env, char *name, char *value)
 {
 	t_env	*node;
 
-	while (env != NULL && env->next != NULL)
-	{
-		if (ft_strcmp(env->name, name) == 0
-			&& ft_strlcpy(env->value, value, len + 1))
-			break ;
-		env = env->next;
-	}
+	check_and_change2(&env, name, value);
 	if (env != NULL && ft_strcmp(env->name, name) == 0)
-		return (ft_strlcpy(env->value, value, len + 1), NULL);
+	{
+		free(env->value);
+		env->value = ft_strdup(value);
+		return (NULL);
+	}
 	if (env == NULL || env->next == NULL)
 	{
 		node = (t_env *)malloc(sizeof(t_env));
@@ -116,13 +114,12 @@ void	cd(char **arg, t_env *env)
 	change_dir(arg, &i, env);
 	if (i == -1)
 		printf("cd : %s no such file in directory\n", arg[1]);
-	else if (env->next == NULL || env->next->next == NULL)
+	else
 	{
 		getcwd(new_dir, 1024);
-		create_or_change_env(env, "PWD", new_dir, ft_strlen(new_dir));
+		create_or_change_env(env, "PWD", new_dir);
 		if (ft_strcmp(current_dir, new_dir))
-			create_or_change_env(env, "OLDPWD",
-				current_dir, ft_strlen(current_dir));
+			create_or_change_env(env, "OLDPWD",current_dir);
 		var.exit_code = 0;
 	}
 }

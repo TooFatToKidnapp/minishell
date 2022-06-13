@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 21:01:03 by aabdou            #+#    #+#             */
-/*   Updated: 2022/06/12 19:20:12 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/06/13 17:55:13 by aabdou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ typedef struct s_env
 	struct s_env	*prev;
 }					t_env;
 
+void	check_and_change2(t_env **env, char *name, char *value);
 char	*get_prompt(void);
 void	sigint(int sig);
 char	*get_pwd(void);
@@ -73,7 +74,7 @@ char	*get_full_path(char *str, char *home);
 char	*get_home(t_env *env);
 void	change_dir(char **str, int *i, t_env *env);
 void	cd(char **arg, t_env *env);
-void	*create_or_change_env(t_env *env, char *name, char *value, int len);
+void	*create_or_change_env(t_env *env, char *name, char *value);
 void	pwd(void);
 void	echo(char **str);
 int		ft_checkflag(char *str);
