@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset_util.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: skinnyleg <skinnyleg@student.42.fr>        +#+  +:+       +#+        */
+/*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 14:54:42 by aabdou            #+#    #+#             */
-/*   Updated: 2022/06/12 21:44:26 by skinnyleg        ###   ########.fr       */
+/*   Updated: 2022/06/13 16:11:32 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,19 @@ t_env	*remove_last_env(t_env **env, char *tmp_cmd)
 void	remove_env(char *name, t_env **env, char **envp)
 {
 	(void)envp;
-	while (ft_strcmp((*env)->name, name))
-		*env = (*env)->next;
-	free_env(env);
+	while ((*env)->next)
+	{
+		if (ft_strcmp((*env)->name, name))
+			*env = (*env)->next;
+		else
+			break ;
+	}
+	if (*env && ft_strcmp((*env)->name, name) == 0)
+		free_env(env);
+	if (*env != NULL)
+	{
+		while((*env)->prev != NULL)
+			*env = (*env)->prev;
+	}
 	return ;
 }
