@@ -6,7 +6,7 @@
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 14:30:41 by aabdou            #+#    #+#             */
-/*   Updated: 2022/06/09 20:01:25 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/06/13 15:46:52 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ void	cd(char **arg, t_env *env)
 	change_dir(arg, &i, env);
 	if (i == -1)
 		printf("cd : %s no such file in directory\n", arg[1]);
-	else if (env->next == NULL || env->next->next == NULL)
+	else /*if (env->next == NULL || env->next->next == NULL)*/
 	{
 		getcwd(new_dir, 1024);
 		create_or_change_env(env, "PWD", new_dir, ft_strlen(new_dir));
