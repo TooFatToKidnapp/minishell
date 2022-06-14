@@ -46,7 +46,7 @@ all : ft_libft $(NAME)
 		$(CC) $(FLAGS) -I $(shell brew --prefix readline)/include -c $< -o $@
 
 $(NAME) : $(OBJ)
-	$(CC)  -fsanitize=address $(FLAGS) $(OBJ) libft/libft.a -L  $(shell brew --prefix readline)/lib -lreadline -o $(NAME)
+	$(CC) -fsanitize=address $(FLAGS) $(OBJ) libft/libft.a -L  $(shell brew --prefix readline)/lib -lreadline -o $(NAME)
 
 ft_libft :
 		@make -C libft
@@ -58,3 +58,4 @@ fclean : clean
 	rm -f minishell && make -C libft fclean
 
 re : fclean all
+# -fsanitize=address

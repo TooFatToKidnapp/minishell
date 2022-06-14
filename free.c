@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 19:14:55 by aabdou            #+#    #+#             */
-/*   Updated: 2022/06/13 15:51:31 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/06/14 15:46:33 by aabdou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,27 @@ void	free_env(t_env **env)
 		tmp2->prev = tmp1;
 		(*env) = tmp1;
 	}
-	// if (*env != NULL)
-	// {
-	// 	while((*env)->prev != NULL)
-	// 		*env = (*env)->prev;
-	// }
+}
+
+void	free_all_env(t_env *env)
+{
+	t_env	*next;
+	t_env	*tmp;
+
+	next = NULL;
+	if (env)
+	{
+		next = env->next;
+		free(env->name);
+		free(env->value);
+		free(env);
+	}
+	while (next)
+	{
+		tmp = next;
+		next = next->next;
+		free(tmp->name);
+		free(tmp->value);
+		free(tmp);
+	}
 }

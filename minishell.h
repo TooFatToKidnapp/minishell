@@ -6,7 +6,7 @@
 /*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 21:01:03 by aabdou            #+#    #+#             */
-/*   Updated: 2022/06/13 17:55:13 by aabdou           ###   ########.fr       */
+/*   Updated: 2022/06/14 15:47:59 by aabdou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int		skip_quote(char *str, int i);
 char	**trim_str(char **tab);
 int		check_red_pos(char **str);
 void	free_list(t_node **node);
-t_env	*get_env(char **envp, int flag);
+t_env	*get_env(char **envp);
 char	*get_name(char *str);
 char	*get_value(char *str);
 void	add_var(t_env **env, char *str);
@@ -116,4 +116,6 @@ void	check_dollar(char **str, t_env *env);
 int		ft_dollar_only(char *dollar);
 int		ft_switch(t_env *env, char **dollar, char **str);
 char	*ft_dollar(char **dollar);
+void	free_all_env(t_env *env);
+
 #endif

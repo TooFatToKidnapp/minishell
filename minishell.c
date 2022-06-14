@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 21:00:43 by aabdou            #+#    #+#             */
-/*   Updated: 2022/06/12 19:08:45 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/06/14 15:53:23 by aabdou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ void	sigint(int sig)
 	if (sig == SIGINT)
 	{
 		ft_putchar_fd('\n', 1);
-		rl_on_new_line();
+		if (var.forks == 0)
+			rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
 		var.exit_code = 1;
@@ -120,8 +121,8 @@ int	main(int ac, char **av, char **envp)
 	signal(SIGINT, sigint);
 	signal(SIGQUIT, sigint);
 	signal(SIGTSTP, SIG_IGN);
-	env = get_env(envp , 0);
+	env = get_env(envp);
 	init_shell(env, envp);
-	// free_env(env);
+	//free_all_env(env);
 	return (0);
 }

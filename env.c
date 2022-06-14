@@ -6,7 +6,7 @@
 /*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 20:45:57 by aabdou            #+#    #+#             */
-/*   Updated: 2022/06/13 17:48:18 by aabdou           ###   ########.fr       */
+/*   Updated: 2022/06/14 15:47:46 by aabdou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	add_var(t_env **env, char *str)
 	return ;
 }
 
-t_env	*get_env(char **envp, int flag)
+t_env	*get_env(char **envp)
 {
 	t_env	*env;
 	int		i;
@@ -79,7 +79,7 @@ t_env	*get_env(char **envp, int flag)
 		add_var(&env, envp[i]);
 		i++;
 	}
-	if (flag != 1 && envp[0] == NULL)
+	if (envp[0] == NULL)
 		env = create_path_pwd();
 	return (env);
 }
