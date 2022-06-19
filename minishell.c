@@ -3,40 +3,52 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 21:00:43 by aabdou            #+#    #+#             */
-/*   Updated: 2022/06/14 15:53:23 by aabdou           ###   ########.fr       */
+/*   Updated: 2022/06/19 14:52:11 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	sigint(int sig)
+void	sig_quit(int sig)
+{
+	if (sig == SIGQUIT && var.forks > 0)
+	{
+		if (var.forks == 1
+			&& ft_strcmp(var.user_input, "./minishell") != 0)
+		{
+			printf("QUIT: 3\n");
+			var.exit_code = 131;
+		}
+		else if (ft_strcmp(var.user_input, "./minishell") != 0)
+		{
+			rl_on_new_line();
+			rl_redisplay();
+		}
+	}
+}
+
+void	sig_int(int sig)
 {
 	if (sig == SIGINT)
 	{
-		ft_putchar_fd('\n', 1);
 		if (var.forks == 0)
-			rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
-		var.exit_code = 1;
-	}
-	if (sig == SIGQUIT)
-	{
-		if (var.forks > 0)
 		{
-			if (var.forks == 1)
-			{
-				printf("QUIT: 3\n");
-				var.exit_code = 131;
-			}
-			else
-			{
-				rl_on_new_line();
-				rl_redisplay();
-			}
+			var.ctrl_c = 1;
+			printf("\n");
+			rl_on_new_line();
+			rl_replace_line("", 0);
+			rl_redisplay();
+			var.exit_code = 1;
+		}
+		else
+		{
+			if (ft_strcmp(var.user_input, "./minishell") != 0)
+				printf("\n");
+			rl_redisplay();
+			var.exit_code = 1;
 		}
 	}
 }
@@ -62,27 +74,6 @@ char	*get_prompt(void)
 	return (s3);
 }
 
-void	ft_continue(t_node **node, t_env **env, char **envp)
-{
-	if (ft_strcmp((*node)->arg[0], "cd") == 0
-		|| ft_strcmp((*node)->arg[0], "/usr/bin/cd") == 0)
-		cd((*node)->arg, *env);
-	else if (ft_strcmp((*node)->arg[0], "pwd") == 0)
-		pwd();
-	else if (ft_strcmp((*node)->arg[0], "echo") == 0)
-		echo((*node)->arg);
-	else if (ft_strcmp((*node)->arg[0], "env") == 0)
-		print_env(*env);
-	else if (ft_strcmp((*node)->arg[0], "export") == 0)
-		export(env, (*node)->arg, envp);
-	else if (ft_strcmp((*node)->arg[0], "unset") == 0)
-		unset(env, (*node)->arg, envp);
-	else if (ft_strcmp((*node)->arg[0], "exit") == 0)
-		exit_shell((*node)->arg, 0);
-	else
-		pipex(*node, *env);
-}
-
 void	init_shell(t_env *env, char **envp)
 {
 	char	*str;
@@ -100,9 +91,9 @@ void	init_shell(t_env *env, char **envp)
 		}
 		if (var.user_input != NULL)
 			add_history(var.user_input);
-		node = parser(node, env);
+		node = parser(node);
 		if (node != NULL)
-			ft_continue(node, &env, envp);
+			exec(*node, &env, envp);
 		free(var.user_input);
 		if (node != NULL)
 			free_list(node);
@@ -110,6 +101,7 @@ void	init_shell(t_env *env, char **envp)
 	free(var.user_input);
 }
 
+/*	﷽	*/
 int	main(int ac, char **av, char **envp)
 {
 	t_env	*env;
@@ -118,11 +110,12 @@ int	main(int ac, char **av, char **envp)
 	(void)ac;
 	rl_catch_signals = 0;
 	var.exit_code = 0;
-	signal(SIGINT, sigint);
-	signal(SIGQUIT, sigint);
+	var.ctrl_c = 0;
+	signal(SIGINT, sig_int);
+	signal(SIGQUIT, sig_quit);
 	signal(SIGTSTP, SIG_IGN);
-	env = get_env(envp);
+	env = get_env(envp, 0);
 	init_shell(env, envp);
-	//free_all_env(env);
+	free_all_env(env);
 	return (0);
 }

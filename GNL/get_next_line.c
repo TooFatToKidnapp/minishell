@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 17:39:36 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/06/10 14:18:02 by aabdou           ###   ########.fr       */
+/*   Updated: 2022/06/17 18:42:35 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,16 +46,16 @@ static char	*fill_line(char **rem,	int a)
 	{
 		line = (char *)malloc(sizeof(char) * (index + 2));
 		if (line == NULL)
-			return (free_all(&line), NULL);
-		ft_memcpy2(line, *rem, index);
+			return (free_all(&line), exit(1), NULL);
+		ft_memcpy(line, *rem, index);
 		line[index] = '\n';
 		line[index + 1] = '\0';
-		tmp = ft_strdup2(*rem + index + 1);
+		tmp = ft_strdup(*rem + index + 1);
 		free_all(rem);
 		*rem = tmp;
 		return (line);
 	}
-	line = ft_strdup2(*rem);
+	line = ft_strdup(*rem);
 	free_all(rem);
 	return (line);
 }
@@ -71,7 +71,7 @@ char	*get_next_line(int fd)
 		return (NULL);
 	buff = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (buff == NULL)
-		return (free_all(&buff), NULL);
+		return (free_all(&buff), exit(1), NULL);
 	while (i > 0)
 	{
 		i = read(fd, buff, BUFFER_SIZE);
@@ -79,9 +79,9 @@ char	*get_next_line(int fd)
 			return (free_all(&buff), NULL);
 		buff[i] = '\0';
 		if (!rem)
-			rem = ft_strdup2(buff);
+			rem = ft_strdup(buff);
 		else
-			rem = ft_strjoin_gnl2(rem, buff);
+			rem = ft_strjoin_gnl(rem, buff);
 		if (get_line(rem) != -1)
 			break ;
 	}

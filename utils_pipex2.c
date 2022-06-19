@@ -3,46 +3,46 @@
 /*                                                        :::      ::::::::   */
 /*   utils_pipex2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: skinnyleg <skinnyleg@student.42.fr>        +#+  +:+       +#+        */
+/*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/01 10:42:43 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/06/07 21:39:00 by skinnyleg        ###   ########.fr       */
+/*   Updated: 2022/06/18 17:58:53 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex_bonus.h"
+#include "exec.h"
 
-void	ft_init(t_all *var, t_env *env, int ac)
+int	ft_init(t_all *var, t_node *node, char **envp)
 {
-	var->paths = ft_findpath(env);
-	ft_path_checker(var->paths);
-	var->fork_num = ac;
+	var->fork_num = lst_size(node);
 	var->pipe_num = var->fork_num - 1;
 	var->i = 0;
 	var->j = 0;
+	var->node = node;
+	var->built_envp = envp;
+	return (0);
 }
 
-void	ft_init2(t_all *var)
+int	ft_init2(t_all *var)
 {
 	var->p = (int **)malloc(sizeof(int *) * var->pipe_num);
 	ft_malloc(var->p);
-	var->pid = (pid_t *)malloc(sizeof(pid_t) * var->fork_num);
-	ft_malloc(var->pid);
 	while (var->i < var->pipe_num)
 	{
 		var->p[var->i] = (int *)malloc(sizeof(int) * 2);
 		if (var->p[var->i] == NULL)
 		{
-			printf("ERROR\n");
+			printf("ERROR2\n");
 			exit(1);
 		}
 		if (pipe(var->p[var->i]) == -1)
 		{
-			printf("ERROR\n");
-			exit(1);
+			printf("ERROR1\n");
+			return (1);
 		}
 		(var->i)++;
 	}
+	return (0);
 }
 
 void	free_memory_pipex(char **s)
@@ -58,31 +58,38 @@ void	free_memory_pipex(char **s)
 	free(s);
 }
 
-void	ft_file(int fd, char *path, char **cmd)
+void	ft_path_checker(char *paths)
 {
-	if (fd < 0)
+	if (paths == NULL)
 	{
-		free(path);
-		free_memory_pipex(cmd);
-		ft_putstr_fd("unreadable file", 1);
+		ft_putstr_fd("Command not found\n", 2);
 		exit(1);
 	}
 }
 
-void	ft_read(int *p, char *path, char **cmd)
+void	ft_close_free(t_all *vars, char **input)
 {
-	char	*str;
+	int	i;
+	int	state;
 
-	str = malloc(2);
-	read(p[0], str, 2);
-	if (ft_strncmp(str, "-1", 2) == 0)
+	state = 0;
+	i = 0;
+	while (i < vars->i)
 	{
-		free(path);
-		free_memory_pipex(cmd);
-		close(p[1]);
-		close(p[0]);
-		free(str);
-		exit(1);
+		waitpid(-1, &state, 0);
+		if (WIFEXITED(state) && WEXITSTATUS(state) == 1)
+			var.exit_code = 127;
+		var.forks--;
+		i++;
 	}
-	free(str);
+	unlink("tmp");
+	free_2d(input);
+	vars->j = 0;
+	while (vars->j < vars->pipe_num)
+	{
+		close(vars->p[vars->j][0]);
+		close(vars->p[vars->j][1]);
+		(vars->j)++;
+	}
+	free_var(vars);
 }

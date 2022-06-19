@@ -6,7 +6,7 @@
 /*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/18 17:49:59 by aabdou            #+#    #+#             */
-/*   Updated: 2022/06/13 17:41:03 by aabdou           ###   ########.fr       */
+/*   Updated: 2022/06/18 17:00:44 by aabdou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	check_and_change2(t_env **env, char *name, char *value)
 		{
 			free((*env)->value);
 			(*env)->value = ft_strdup(value);
-			break;
+			break ;
 		}
 		*env = (*env)->next;
 	}

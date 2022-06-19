@@ -6,7 +6,7 @@
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 17:22:28 by aabdou            #+#    #+#             */
-/*   Updated: 2022/06/12 15:35:33 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/06/17 18:37:00 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,14 @@ char	**trim_str(char **tab)
 	while (tab[i] != NULL)
 		i++;
 	str = malloc(sizeof(char *) * i + 1);
+	if (str == NULL)
+		return (perror("Error malloc"), exit(EXIT_FAILURE), NULL);
 	i = 0;
 	while (tab[i] != NULL)
 	{
 		str[i] = ft_strtrim(tab[i], " ");
+		if (str[i] == NULL)
+			return (perror("Error malloc"), exit(EXIT_FAILURE), NULL);
 		i++;
 	}
 	str[i] = NULL;

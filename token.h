@@ -1,31 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   token.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/01 20:46:23 by aabdou            #+#    #+#             */
-/*   Updated: 2022/06/17 18:43:49 by hmoubal          ###   ########.fr       */
+/*   Created: 2022/06/11 14:55:21 by hmoubal           #+#    #+#             */
+/*   Updated: 2022/06/19 14:34:36 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"libft.h"
+#ifndef TOKEN_H
+# define TOKEN_H
 
-char	*ft_strdup(const char *s1)
+typedef struct token_struct
 {
-	char	*str;
-	size_t	i;
-
-	str = (char *)malloc(sizeof(*s1) * (ft_strlen(s1) + 1));
-	if (!str)
-		return (exit(1), NULL);
-	i = 0;
-	while (s1[i] != '\0')
+	enum
 	{
-		str[i] = s1[i];
-		i++;
-	}
-	str[i] = 0;
-	return (str);
-}
+		TOKEN_WORD,
+		TOKEN_INPUT,
+		TOKEN_OUTPUT,
+		TOKEN_APPEND,
+		TOKEN_HERE_DOC,
+		TOKEN_STR,
+		TOKEN_VAR,
+		TOKEN_TILDA,
+	}	e_type;
+	char	*value;
+}	t_token;
+
+t_token	*init_token(int type, char *value);
+#endif

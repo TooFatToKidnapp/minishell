@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
+/*   By: skinnyleg <skinnyleg@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 20:45:53 by aabdou            #+#    #+#             */
-/*   Updated: 2022/06/09 19:08:03 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/06/17 21:12:39 by skinnyleg        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,22 +95,13 @@ char	**ft_split(char const *s, char c)
 {
 	char	**tab;
 	int		word;
-	size_t	i;
 
-	i = 0;
 	if (!s)
 		return (NULL);
 	word = get_count(s, c, 0, 0);
 	tab = (char **)malloc(sizeof(char *) * (word + 1));
 	if (!tab)
-	{
-		while (tab[i++])
-		{
-			free(tab[i]);
-		}
-		free(tab);
 		return (perror("Error, split"), exit(EXIT_FAILURE), NULL);
-	}
 	tab = fill(s, c, word, tab);
 	return (tab);
 }

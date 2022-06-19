@@ -6,7 +6,7 @@
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 18:37:39 by aabdou            #+#    #+#             */
-/*   Updated: 2022/06/12 19:36:59 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/06/17 19:20:57 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,11 +85,11 @@ void	new_env(char *name, char *value, t_env **env)
 	}
 }
 
-void	*update_env(t_env **env, char *name, char *value)
+void	*update_env(t_env **env, char *name, char **value)
 {
 	char	*tr_val;
 
-	tr_val = ft_strtrim(value, "\"\'");
+	tr_val = ft_strtrim(*value, "\"\'");
 	while (*env)
 	{
 		if (!ft_strcmp(name, (*env)->name))
@@ -109,6 +109,7 @@ void	*update_env(t_env **env, char *name, char *value)
 		else
 			break ;
 	}
-	new_env(name, tr_val, env);
-	return (free(tr_val), NULL);
+	if (*value)
+		free(*value);
+	return (new_env(name, tr_val, env), free(tr_val), NULL);
 }

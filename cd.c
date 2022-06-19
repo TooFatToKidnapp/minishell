@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 14:30:41 by aabdou            #+#    #+#             */
-/*   Updated: 2022/06/13 18:07:30 by aabdou           ###   ########.fr       */
+/*   Updated: 2022/06/18 16:50:54 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,11 @@ void	cd(char **arg, t_env *env)
 	char	new_dir[1024];
 
 	i = 0;
-	getcwd(current_dir, 1024);
+	if (getcwd(current_dir, 1024) == NULL && !ft_strcmp(arg[1], "."))
+	{
+		perror("Error");
+		return ;
+	}
 	change_dir(arg, &i, env);
 	if (i == -1)
 		printf("cd : %s no such file in directory\n", arg[1]);
@@ -119,7 +123,7 @@ void	cd(char **arg, t_env *env)
 		getcwd(new_dir, 1024);
 		create_or_change_env(env, "PWD", new_dir);
 		if (ft_strcmp(current_dir, new_dir))
-			create_or_change_env(env, "OLDPWD",current_dir);
+			create_or_change_env(env, "OLDPWD", current_dir);
 		var.exit_code = 0;
 	}
 }

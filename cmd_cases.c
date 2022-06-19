@@ -3,23 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_cases.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: skinnyleg <skinnyleg@student.42.fr>        +#+  +:+       +#+        */
+/*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 22:09:03 by skinnyleg         #+#    #+#             */
-/*   Updated: 2022/06/07 22:18:07 by skinnyleg        ###   ########.fr       */
+/*   Updated: 2022/06/18 17:48:19 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex_bonus.h"
+#include "exec.h"
 
-void	ft_here_doc_write(t_args *commandes, int index, int *fd_in)
+int	ft_here_doc_write(t_args *args, int *fd_in)
 {
 	char	*line;
 	int		j;
 
 	line = get_next_line(0);
-	while (ft_limiter(line, commandes[index].limiter,
-			ft_strlen(commandes[index].limiter) + 2))
+	if (line == NULL)
+		return (0);
+	while (var.ctrl_c == 0 && ft_limiter(line, args->limiter,
+			ft_strlen(args->limiter) + 2))
 	{
 		j = 0;
 		while (line[j] != '\0')
@@ -29,71 +31,75 @@ void	ft_here_doc_write(t_args *commandes, int index, int *fd_in)
 		}
 		free(line);
 		line = get_next_line(0);
+		if (line == NULL)
+			return (0);
 	}
 	free(line);
+	if (var.ctrl_c != 0)
+		return (1);
+	return (0);
 }
 
-void	ft_here_doc(t_args *commandes, int index, int *fd_in)
+int	ft_here_doc(t_args *args, int *fd_in)
 {
-	if (commandes[index].here_doc != 0)
+	if (args->in_file == NULL && args->limiter != NULL)
 	{
-		close(*fd_in);
-		*fd_in = open("tmp", O_RDWR | O_CREAT, 0645);
+		*fd_in = open("tmp", O_RDWR);
 		if (*fd_in == -1)
 		{
 			write(1, "can't open\n", 11);
-			exit(1);
+			return (1);
 		}
-		ft_here_doc_write(commandes, index, fd_in);
-		close(*fd_in);
-		*fd_in = open("tmp", O_RDWR | O_CREAT, 0645);
 	}
+	return (0);
 }
 
-void	ft_if_infile(t_args *commandes, int index, int *fd_in, t_all *var)
+int	ft_if_infile(t_args *args, int index, int *fd_in, t_all *var)
 {
-	if (commandes[index].infile != 0)
+	if (args->in_file != NULL)
 	{
 		close(*fd_in);
-		*fd_in = open(commandes[index].in_file, O_RDONLY);
+		*fd_in = open(args->in_file, O_RDONLY);
 		if (*fd_in == -1)
 		{
 			write(1, "can't open\n", 11);
-			exit(1);
+			return (1);
 		}
 	}
-	else if (index != 0)
+	else if (index != 0 && args->limiter == NULL)
 	{
 		close(*fd_in);
 		*fd_in = dup(var->p[index - 1][0]);
 	}
+	return (0);
 }
 
-void	ft_if_outfile(t_args *commandes, int index, int *fd_out, t_all *var)
+int	ft_if_outfile(t_args *args, int index, int *fd_out, t_all *var)
 {
 	close(*fd_out);
-	if (commandes[index].outappend != 0)
+	if (args->out_append != NULL)
 	{
-		*fd_out = open(commandes[index].out_append,
+		*fd_out = open(args->out_append,
 				O_RDWR | O_CREAT | O_APPEND, 0645);
 		if (*fd_out == -1)
 		{
 			write(1, "can't open\n", 11);
-			exit(1);
+			return (1);
 		}
 	}
-	else if (commandes[index].outfile != 0)
+	else if (args->out_file != NULL)
 	{
-		*fd_out = open(commandes[index].out_file,
+		*fd_out = open(args->out_file,
 				O_RDWR | O_CREAT | O_TRUNC, 0645);
 		if (*fd_out == -1)
 		{
 			write(1, "can't open\n", 11);
-			exit(1);
+			return (1);
 		}
 	}
 	else if (index != var->fork_num - 1)
 		*fd_out = dup(var->p[index][1]);
+	return (0);
 }
 
 void	close_all(t_all *var, int fd_in, int fd_out)

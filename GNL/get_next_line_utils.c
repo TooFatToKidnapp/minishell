@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/08 18:26:25 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/06/10 14:18:29 by aabdou           ###   ########.fr       */
+/*   Updated: 2022/06/17 18:45:37 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-size_t	ft_strlen2(char const	*str)
+size_t	ft_strlen(char const	*str)
 {
 	size_t	a;
 
@@ -24,7 +24,7 @@ size_t	ft_strlen2(char const	*str)
 	return (a);
 }
 
-void	*ft_memcpy2(void *dest,	const void *src,	size_t size)
+void	*ft_memcpy(void *dest,	const void *src,	size_t size)
 {
 	char	*p1;
 	char	*p2;
@@ -44,7 +44,7 @@ void	*ft_memcpy2(void *dest,	const void *src,	size_t size)
 	return (dest);
 }
 
-char	*ft_strdup2(const char *src)
+char	*ft_strdup(const char *src)
 {
 	char	*hub;
 	int		i;
@@ -59,7 +59,7 @@ char	*ft_strdup2(const char *src)
 	if (hub == NULL)
 	{
 		free(hub);
-		return (NULL);
+		exit(1);
 	}
 	while (src[i] != '\0')
 	{
@@ -70,7 +70,7 @@ char	*ft_strdup2(const char *src)
 	return (hub);
 }
 
-char	*ft_strjoin_gnl2(char const *s1,	char const *s2)
+char	*ft_strjoin_gnl(char const *s1,	char const *s2)
 {
 	char	*tab;
 	size_t	i;
@@ -79,12 +79,12 @@ char	*ft_strjoin_gnl2(char const *s1,	char const *s2)
 
 	if (!s1 || !s2)
 		return (NULL);
-	i = ft_strlen2(s1);
-	j = ft_strlen2(s2);
+	i = ft_strlen(s1);
+	j = ft_strlen(s2);
 	k = i + j;
 	tab = (char *)malloc(k + 1);
 	if (tab == NULL)
-		return (NULL);
+		return (free((char *)s1), exit(1), NULL);
 	i = 0;
 	j = 0;
 	while (s1[i] != '\0')

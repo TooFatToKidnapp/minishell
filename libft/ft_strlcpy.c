@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlcpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 20:52:06 by aabdou            #+#    #+#             */
-/*   Updated: 2022/06/11 14:11:55 by aabdou           ###   ########.fr       */
+/*   Updated: 2022/06/14 17:47:27 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t ds)
 	size_t	i;
 
 	i = 0;
-	if(ds == 0)
+	if (ds == 0)
 	{
 		return (ft_strlen(src));
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 21:01:03 by aabdou            #+#    #+#             */
-/*   Updated: 2022/06/14 15:47:59 by aabdou           ###   ########.fr       */
+/*   Updated: 2022/06/18 17:39:35 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ struct	s_shell
 	char	*user_input;
 	int		forks;
 	int		exit_code;
-
+	int		ctrl_c;
 }			var;
 
 typedef struct s_env
@@ -48,9 +48,9 @@ typedef struct s_env
 	struct s_env	*prev;
 }					t_env;
 
-void	check_and_change2(t_env **env, char *name, char *value);
 char	*get_prompt(void);
-void	sigint(int sig);
+void	sig_quit(int sig);
+void	sig_int(int sig);
 char	*get_pwd(void);
 int		check_start_and_end(void);
 int		check_pipes_back_to_back(void);
@@ -66,7 +66,7 @@ int		skip_quote(char *str, int i);
 char	**trim_str(char **tab);
 int		check_red_pos(char **str);
 void	free_list(t_node **node);
-t_env	*get_env(char **envp);
+t_env	*get_env(char **envp, int flag);
 char	*get_name(char *str);
 char	*get_value(char *str);
 void	add_var(t_env **env, char *str);
@@ -85,7 +85,7 @@ char	**fill_2d(t_env *node, int len);
 char	**fill_block_in_2d(t_env *node, int i, char **tmp);
 int		list_len(t_env *node);
 int		ft_add_to_env(t_env **env, char *str, int i, int equal_pos);
-void	*update_env(t_env **env, char *name, char *value);
+void	*update_env(t_env **env, char *name, char **value);
 void	new_env(char *name, char *value, t_env **env);
 int		check_identifier(char *str);
 void	allocate(char **name, char **value, char *str, int pos);
@@ -95,27 +95,29 @@ char	**fill_tmp_envp(t_env *env, int i);
 void	copy_to_envp(char **tmp_envp, char **envp);
 void	print_env(t_env *env);
 t_env	*create_path_pwd(void);
-void	unset(t_env **env, char **cmd, char **envp);
+void	unset(t_env **env, char **cmd);
 int		check_if_valid(char *var);
 t_env	ft_delete_env(t_env *env, t_env *tmp, char *tmp_cmd, char **envp);
-void	update_envp(t_env *env, char **envp);
+void	update_envp(t_env *env, char **envp, int i);
 char	**new_envp(t_env *env);
-t_env	*remove_last_env(t_env **env, char *tmp_cmd);
-void	remove_env(char *name, t_env **env, char **envp);
+t_env	*remove_last_env(t_env **env);
+void	remove_env(char *name, t_env **env);
 t_node	*create_and_fill(char *cmd, int index);
 t_node	*add_node_back(t_node *node);
 void	add_node(t_node **node, t_node *new);
 void	fill_node(char **str, t_node **node);
-t_node	**parser(t_node **node, t_env *env);
-t_node	**check_err(t_env *env);
+t_node	**parser(t_node **node);
+t_node	**check_err(void);
 void	free_2d(char **str);
 void	free_env(t_env **env);
-void	pipex(t_node *node, t_env *env);
+void	exec(t_node *node, t_env **env, char **envp);
 void	exit_shell(char **str, int i);
 void	check_dollar(char **str, t_env *env);
 int		ft_dollar_only(char *dollar);
 int		ft_switch(t_env *env, char **dollar, char **str);
 char	*ft_dollar(char **dollar);
 void	free_all_env(t_env *env);
-
+int		lst_size(t_node *node);
+int		check(char *str);
+void	check_and_change2(t_env **env, char *name, char *value);
 #endif

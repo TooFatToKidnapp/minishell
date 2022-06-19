@@ -1,16 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex_dub.c                                        :+:      :+:    :+:   */
+/*   exec2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/21 01:38:08 by hmoubal           #+#    #+#             */
-/*   Updated: 2022/06/09 18:47:33 by hmoubal          ###   ########.fr       */
+/*   Created: 2022/06/15 13:37:01 by hmoubal           #+#    #+#             */
+/*   Updated: 2022/06/19 15:14:39 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex_bonus.h"
+#include "exec.h"
+
+void	add_back(t_lists **head, t_lists *new)
+{
+	t_lists	*tmp;
+
+	tmp = NULL;
+	if (*head == NULL)
+	{
+		*head = new;
+		return ;
+	}
+	tmp = *head;
+	while (tmp->next != NULL)
+		tmp = tmp->next;
+	tmp->next = new;
+	new->prev = tmp;
+}
 
 int	lst_size(t_node *node)
 {
@@ -34,6 +51,8 @@ char	*ft_path(char *env, char *av)
 
 	a = 0;
 	try = NULL;
+	if (av == NULL || av[0] == '\0')
+		return (printf("command not found\n"), exit(1), NULL);
 	if (access(av, F_OK) == 0)
 		return (ft_strdup(av));
 	path = ft_split(env + 5, ':');
@@ -77,36 +96,22 @@ char	**create_env(t_env *env)
 	return (envp);
 }
 
-void	exec_cmd(t_all *var, t_args *commandes, t_env *env, int index)
+void	free_mylist(t_lists **list)
 {
-	char	**envp;
-	int		fd_in;
-	int		fd_out;
+	t_lists	*tmp;
 
-	fd_in = dup(0);
-	fd_out = dup(1);
-	var->cmd_path = ft_path(var->paths, commandes[index].cmd[0]);
-	ft_path_null(var->cmd_path);
-	ft_here_doc(commandes, index, &fd_in);
-	ft_if_infile(commandes, index, &fd_in, var);
-	ft_if_outfile(commandes, index, &fd_out, var);
-	dup2(fd_out, 1);
-	dup2(fd_in, 0);
-	close_all(var, fd_in, fd_out);
-	envp = create_env(env);
-	if (envp == NULL)
+	if (*list != NULL)
 	{
-		printf("Error\n");
-		exit(1);
+		while ((*list)->next)
+		{
+			tmp = (*list);
+			(*list) = (*list)->next;
+			free(tmp->value);
+			free(tmp);
+			tmp = NULL;
+		}
+		free((*list)->value);
+		free((*list));
+		(*list) = NULL;
 	}
-	execve(var->cmd_path, commandes[index].cmd, envp);
-}
-
-void	pipex(t_node *node, t_env *env)
-{
-	t_args	*commands;
-
-	commands = parse_arg(node);
-	normal_mode(commands, env, node);
-	free_commands(commands, lst_size(node));
 }

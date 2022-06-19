@@ -6,7 +6,7 @@
 /*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 18:00:27 by aabdou            #+#    #+#             */
-/*   Updated: 2022/06/12 19:08:27 by hmoubal          ###   ########.fr       */
+/*   Updated: 2022/06/18 15:55:43 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void	sort_and_print_env(t_env *env)
 void	export(t_env **env, char **str, char **envp)
 {
 	int		i;
-	// char	**tmp_envp;
+	char	**tmp_envp;
 
 	i = 0;
 	if (str[1] == NULL || str[1][0] == '#')
@@ -106,9 +106,8 @@ void	export(t_env **env, char **str, char **envp)
 			if (check_and_change(str[i], env))
 				return ;
 		}
-		(void)envp;
-		// tmp_envp = fill_tmp_envp(env, 0);
-		// copy_to_envp(tmp_envp, envp);
+		tmp_envp = fill_tmp_envp(*env, 0);
+		copy_to_envp(tmp_envp, envp);
 	}
 	var.exit_code = 0;
 }

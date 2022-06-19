@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 15:21:18 by aabdou            #+#    #+#             */
-/*   Updated: 2022/06/13 16:37:53 by aabdou           ###   ########.fr       */
+/*   Updated: 2022/06/17 18:37:24 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_node	**parser(t_node **node, t_env *env)
+t_node	**parser(t_node **node)
 {
 	char	*str;
 
@@ -25,12 +25,12 @@ t_node	**parser(t_node **node, t_env *env)
 	free(str);
 	if (var.user_input != NULL)
 	{
-		node = check_err(env);
+		node = check_err();
 	}
 	return (node);
 }
 
-t_node	**check_err(t_env *env)
+t_node	**check_err(void)
 {
 	t_node	**node;
 	char	**command;
@@ -38,9 +38,7 @@ t_node	**check_err(t_env *env)
 
 	node = malloc(sizeof(t_node *));
 	if (node == NULL)
-	{
 		return (ft_putstr_fd("Error\n", 2), exit(EXIT_FAILURE), NULL);
-	}
 	*node = NULL;
 	if (check_pipes() == 0 || check_quotes() == 0 || check_directions() == 0)
 		return (free_list(node), NULL);
@@ -49,7 +47,6 @@ t_node	**check_err(t_env *env)
 	free_2d(command);
 	if (check_red_pos(str) == 0)
 		return (free_2d(str), free_list(node), NULL);
-	check_dollar(str, env);
 	fill_node(str, node);
 	free_2d(str);
 	return (node);

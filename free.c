@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
+/*   By: skinnyleg <skinnyleg@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/19 19:14:55 by aabdou            #+#    #+#             */
-/*   Updated: 2022/06/14 15:46:33 by aabdou           ###   ########.fr       */
+/*   Updated: 2022/06/17 21:20:17 by skinnyleg        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	free_2d(char **str)
 	i = 0;
 	while (str[i])
 	{
-		free(str[i]);;
+		free(str[i]);
 		i++;
 	}
 	free(str);
@@ -45,17 +45,8 @@ void	free_list(t_node **node)
 	free(node);
 }
 
-void	free_env(t_env **env)
+void	free_if(t_env *tmp1, t_env *tmp2, t_env **env)
 {
-	t_env	*tmp1;
-	t_env	*tmp2;
-
-	tmp2 = (*env)->next;
-	tmp1 = (*env)->prev;
-	free((*env)->name);
-	free((*env)->value);
-	free((*env));
-	*env = NULL;
 	if (tmp1 == NULL && tmp2)
 	{
 		(*env) = tmp2;
@@ -72,6 +63,25 @@ void	free_env(t_env **env)
 		tmp2->prev = tmp1;
 		(*env) = tmp1;
 	}
+	if (*env != NULL)
+	{
+		while ((*env)->prev != NULL)
+			*env = (*env)->prev;
+	}
+}
+
+void	free_env(t_env **env)
+{
+	t_env	*tmp1;
+	t_env	*tmp2;
+
+	tmp2 = (*env)->next;
+	tmp1 = (*env)->prev;
+	free((*env)->name);
+	free((*env)->value);
+	free((*env));
+	*env = NULL;
+	free_if(tmp1, tmp2, env);
 }
 
 void	free_all_env(t_env *env)

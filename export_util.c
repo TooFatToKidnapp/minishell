@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_util.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: skinnyleg <skinnyleg@student.42.fr>        +#+  +:+       +#+        */
+/*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 18:06:45 by aabdou            #+#    #+#             */
-/*   Updated: 2022/06/12 22:15:19 by skinnyleg        ###   ########.fr       */
+/*   Updated: 2022/06/17 19:21:03 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ char	**fill_2d(t_env *node, int len)
 		else
 			break ;
 	}
-	tmp[i + 1] = NULL;
+	tmp[i] = NULL;
 	return (tmp);
 }
 
@@ -125,14 +125,9 @@ int	ft_add_to_env(t_env **env, char *str, int i, int equal_pos)
 		value[i++] = str[++equal_pos];
 	if (i != 0)
 		value[i] = '\0';
-	update_env(env, trimed_name, value);
-	free(trimed_name);
-	if (value)
-		free(value);
+	update_env(env, trimed_name, &value);
 	if (*env != NULL)
-	{
-		while((*env)->prev != NULL)
+		while ((*env)->prev != NULL)
 			*env = (*env)->prev;
-	}
-	return (0);
+	return (free(trimed_name), 0);
 }

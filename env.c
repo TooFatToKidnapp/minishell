@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabdou <aabdou@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hmoubal <hmoubal@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 20:45:57 by aabdou            #+#    #+#             */
-/*   Updated: 2022/06/14 15:47:46 by aabdou           ###   ########.fr       */
+/*   Updated: 2022/06/14 18:39:55 by hmoubal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	add_var(t_env **env, char *str)
 	return ;
 }
 
-t_env	*get_env(char **envp)
+t_env	*get_env(char **envp, int flag)
 {
 	t_env	*env;
 	int		i;
@@ -79,7 +79,7 @@ t_env	*get_env(char **envp)
 		add_var(&env, envp[i]);
 		i++;
 	}
-	if (envp[0] == NULL)
+	if (flag != 1 && envp[0] == NULL)
 		env = create_path_pwd();
 	return (env);
 }
@@ -100,7 +100,7 @@ t_env	*create_path_pwd(void)
 	if (!env2)
 		return (perror("Error malloc"), exit(EXIT_FAILURE), NULL);
 	env2->name = ft_strdup("PATH");
-	env2->value = ft_strdup(_PATH_STDPATH);
+	env2->value = ft_strdup("/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:.");
 	env->next = env2;
 	env2->next = NULL;
 	env->prev = NULL;
