@@ -55,7 +55,6 @@ int	third_if(t_args **argum, t_lists **list)
 		return (-1);
 	if ((*argum)->out_file != NULL)
 	{
-		printf("lol1\n");
 		fd = open((*argum)->out_file, O_RDWR | O_CREAT | O_TRUNC, 0645);
 		if (fd == -1)
 			return (printf("can't open\n"), -1);
